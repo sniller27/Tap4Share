@@ -1,24 +1,28 @@
 package com.vogella.android.tap4share;
 
+
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements View.OnClickListener {
 
-//    private TextView topBar;
+public class MainActivity extends Activity{
+
+
     private TextView tabHome;
     private TextView tabTap;
+    private ImageView Photo;
 
-//    private FrameLayout ly_content;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private FirstFragment f1,f2;
-//    private FragmentManager fragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,65 +32,65 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         bindView();
 
+
+
+        tabTap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tabTap.setSelected(true);
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        });
     }
+
 
     //UI initialize
     private void bindView() {
-//        topBar = (TextView)this.findViewById(R.id.text_top);
-        tabHome = (TextView)this.findViewById(R.id.text_home);
-        tabTap = (TextView)this.findViewById(R.id.text_tap);
-//        ly_content = (FrameLayout) findViewById(R.id.fragment_container);
-
-        tabHome.setOnClickListener(this);
-        tabTap.setOnClickListener(this);
-
+        tabHome = (TextView) this.findViewById(R.id.text_home);
+        tabTap = (TextView) this.findViewById(R.id.text_tap);
+        Photo=(ImageView)this.findViewById(R.id.photo);
+//        tabHome.setOnClickListener(this);
+//        tabTap.setOnClickListener(this);
     }
 
     //reset selected text
-    public void selected(){
+    public void selected() {
         tabHome.setSelected(false);
         tabTap.setSelected(false);
     }
 
-    //hide all fragments
-    public void hideAllFragment(FragmentTransaction transaction){
-        if(f1!=null){
-            transaction.hide(f1);
+
+//    @Override
+//    public void onClick(View v) {
+//
+//        switch (v.getId()) {
+//            case R.id.text_home:
+//                selected();
+//                tabHome.setSelected(true);
+//
+//                break;
+//
+//            case R.id.text_tap:
+//                selected();
+//                tabTap.setSelected(true);
+//
+//                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//                }
+//
+//                break;
+//
+//        }
+//    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap photoBitmap = (Bitmap) extras.get("data");
+//            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Photo.setImageBitmap(photoBitmap);
         }
-        if(f2!=null){
-            transaction.hide(f2);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        hideAllFragment(transaction);
-        switch(v.getId()){
-            case R.id.text_home:
-                selected();
-                tabHome.setSelected(true);
-                if(f1==null){
-                    f1 = new FirstFragment("First Fragment");
-                    transaction.add(R.id.fragment_container,f1);
-                }else{
-                    transaction.show(f1);
-                }
-                break;
-
-            case R.id.text_tap:
-                selected();
-                tabTap.setSelected(true);
-                if(f2==null){
-                    f2 = new FirstFragment("Second Fragment");
-                    transaction.add(R.id.fragment_container,f2);
-                }else{
-                    transaction.show(f2);
-                }
-                break;
-
-        }
-
-        transaction.commit();
     }
 }
