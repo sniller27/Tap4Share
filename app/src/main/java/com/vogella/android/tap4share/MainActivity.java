@@ -7,20 +7,25 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity {
+
 
 
     private TextView tabHome;
     private TextView tabTap;
-    private ImageView Photo;
+    ImageView image;
+    private ImageView imageView;
+
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int CAMERA_REQUEST = 1888;
 
 
 
@@ -33,13 +38,27 @@ public class MainActivity extends Activity{
         bindView();
 
 
+        TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
+        this.imageView=(ImageView) this.findViewById(R.id.imageView1);
 
-        tabTap.setOnClickListener(new View.OnClickListener() {
+//        tabTap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                tabTap.setSelected(true);
+////                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//                }
+//            }
+//        });
+
+        photoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                tabTap.setSelected(true);
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
     }
@@ -49,16 +68,16 @@ public class MainActivity extends Activity{
     private void bindView() {
         tabHome = (TextView) this.findViewById(R.id.text_home);
         tabTap = (TextView) this.findViewById(R.id.text_tap);
-        Photo=(ImageView)this.findViewById(R.id.photo);
+
 //        tabHome.setOnClickListener(this);
 //        tabTap.setOnClickListener(this);
     }
 
-    //reset selected text
-    public void selected() {
-        tabHome.setSelected(false);
-        tabTap.setSelected(false);
-    }
+//    //reset selected text
+//    public void selected() {
+//        tabHome.setSelected(false);
+//        tabTap.setSelected(false);
+//    }
 
 
 //    @Override
@@ -85,12 +104,33 @@ public class MainActivity extends Activity{
 //        }
 //    }
 
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            image = (ImageView)this.findViewById(R.id.mImageView);
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            image.setImageBitmap(imageBitmap);
+//        }
+//    }
+
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (requestCode == CAMERA_REQUEST) {
+//            //System.exit(0);
+//            Bitmap picture = (Bitmap) data.getExtras().get("data");
+//            image.setImageBitmap(picture);
+//        }
+//    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap photoBitmap = (Bitmap) extras.get("data");
-//            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            Photo.setImageBitmap(photoBitmap);
+        if (requestCode == CAMERA_REQUEST) {
+            //System.exit(0);
+            Bitmap picture = (Bitmap) data.getExtras().get("data");
+            System.out.println("heeeej: " + picture);
+            imageView.setImageBitmap(picture);
         }
     }
+
 }
