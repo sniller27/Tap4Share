@@ -125,11 +125,14 @@ public class MainActivity extends Activity {
 //    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST) {
+        System.out.println("here is: " + resultCode);
+        if (requestCode == CAMERA_REQUEST && resultCode != 0) {
             //System.exit(0);
             Bitmap picture = (Bitmap) data.getExtras().get("data");
             System.out.println("heeeej: " + picture);
             imageView.setImageBitmap(picture);
+
+//            System.out.println("qreeeerefsdfsdfsd");
         }
     }
 
