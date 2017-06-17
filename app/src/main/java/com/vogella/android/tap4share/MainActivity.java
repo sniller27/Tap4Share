@@ -13,8 +13,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends AppCompatActivity {
 
 
 
@@ -61,6 +63,8 @@ public class MainActivity extends Activity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+
+        System.out.println("HERE IS " + imageView);
     }
 
 
@@ -68,7 +72,7 @@ public class MainActivity extends Activity {
     private void bindView() {
         tabHome = (TextView) this.findViewById(R.id.text_home);
         tabTap = (TextView) this.findViewById(R.id.text_tap);
-
+        tabHome.setSelected(true);
 //        tabHome.setOnClickListener(this);
 //        tabTap.setOnClickListener(this);
     }
@@ -132,7 +136,17 @@ public class MainActivity extends Activity {
             System.out.println("heeeej: " + picture);
             imageView.setImageBitmap(picture);
 
+            //Convert to byte array
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//            byte[] byteArray = stream.toByteArray();
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
+
 //            System.out.println("qreeeerefsdfsdfsd");
+            Intent i = new Intent(this, ImageInsert.class);
+            i.putExtra("camera_image", bs.toByteArray());
+            startActivity(i);
         }
     }
 
