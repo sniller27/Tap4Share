@@ -6,16 +6,17 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="368dp"
+        android:layout_width="fill_parent"
         android:layout_height="495dp"
         tools:context="info.androidhive.jsonparsing.MainActivity">
+
+        <ImageView android:id="@+id/imageView1" android:layout_height="wrap_content" android:src="@drawable/tab_menu_tap" android:layout_width="wrap_content"></ImageView>
 
         <ListView
             android:id="@+id/list"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-
-        <ImageView android:id="@+id/imageView1" android:layout_height="wrap_content" android:src="@drawable/tab_menu_tap" android:layout_width="wrap_content" android:layout_below="@+id/list"></ImageView>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"/>
 
     </RelativeLayout>
 
