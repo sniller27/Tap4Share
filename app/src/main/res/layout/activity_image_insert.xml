@@ -28,43 +28,33 @@
             android:layout_centerInParent="true"/>
 
         <EditText
-            android:id="@+id/artistname"
+            android:id="@+id/imagetitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="artist name"
+            android:hint="Title"
             android:inputType="text"
             android:layout_below="@+id/photo"/>
 
         <EditText
-            android:id="@+id/artistbirthplace"
-            android:layout_width="fill_parent"
+            android:id="@+id/imagedescription"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="6"
+            android:gravity="top|left"
+            android:maxLines="10"
             android:layout_height="wrap_content"
-            android:hint="artist birthplace"
-            android:inputType="text"
-            android:layout_below="@+id/artistname"/>
+            android:layout_width="fill_parent"
+            android:scrollbars="vertical"
+            android:hint="Description"
+            android:layout_below="@+id/imagetitle"/>
 
-        <EditText
-            android:id="@+id/artistbdate"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="artist bdate"
-            android:inputType="text"
-            android:layout_below="@+id/artistbirthplace"/>
-
-        <EditText
-            android:id="@+id/artistfavorite"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="artist favorite"
-            android:inputType="text"
-            android:layout_below="@+id/artistbdate"/>
 
         <Button
             android:id="@+id/send_post_request"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Share"
-            android:layout_below="@+id/artistfavorite"
+            android:layout_below="@+id/imagedescription"
             android:layout_centerInParent="true"/>
 
 

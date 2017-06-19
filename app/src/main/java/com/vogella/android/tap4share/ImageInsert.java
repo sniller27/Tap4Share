@@ -21,6 +21,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class ImageInsert extends AppCompatActivity {
@@ -76,19 +78,19 @@ public class ImageInsert extends AppCompatActivity {
         final Button button = (Button) findViewById(R.id.send_post_request);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final String artistname =  ((EditText) findViewById(R.id.artistname)).getText().toString();
-                final String artistbirthplace =  ((EditText) findViewById(R.id.artistbirthplace)).getText().toString();
-                final String artistbdate =  ((EditText) findViewById(R.id.artistbdate)).getText().toString();
-                final String artistfavorite =  ((EditText) findViewById(R.id.artistfavorite)).getText().toString();
+                final String artistname =  ((EditText) findViewById(R.id.imagetitle)).getText().toString();
+                final String artistbirthplace =  ((EditText) findViewById(R.id.imagedescription)).getText().toString();
+//                final String artistbdate =  ((EditText) findViewById(R.id.artistbdate)).getText().toString();
+//                final String artistfavorite =  ((EditText) findViewById(R.id.artistfavorite)).getText().toString();
 
                 // Code here executes on main thread after user presses button
 
-                Toast.makeText(getApplicationContext(), "Hi there", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Your image has been shared!", Toast.LENGTH_LONG).show();
 
 
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://141.70.55.157:8080/api/artist";
+                String url ="http://141.70.55.157:8080/api/image";
 
 
 
@@ -108,6 +110,7 @@ public class ImageInsert extends AppCompatActivity {
 //                    }
 //                });
 
+
                 //SOLUTION 2 STRINGREQUEST
                 StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
@@ -122,11 +125,16 @@ public class ImageInsert extends AppCompatActivity {
                 }) {
                     @Override
                     public byte[] getBody() throws AuthFailureError {
+                        //TIMESTAMP
+                        SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+                        String format = s.format(new Date());
+
                         HashMap<String, String> params2 = new HashMap<String, String>();
-                        params2.put("name", artistname);
-                        params2.put("birthPlace", artistbirthplace);
-                        params2.put("birthDate", artistbdate);
-                        params2.put("favoritebool", artistfavorite);
+                        params2.put("timestamp", format.toString());
+                        params2.put("source", "cat.png");
+                        params2.put("title", artistname);
+                        params2.put("description", artistbirthplace);
+
                         return new JSONObject(params2).toString().getBytes();
                     }
 
@@ -145,5 +153,8 @@ public class ImageInsert extends AppCompatActivity {
 
             }
         });
+
+
+
     }
 }
