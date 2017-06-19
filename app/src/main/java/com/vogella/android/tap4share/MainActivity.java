@@ -39,12 +39,14 @@ private String TAG = MainActivity.class.getSimpleName();
 
     private ProgressDialog pDialog;
     private ListView lv;
+    String[] itemname;
 
     // URL to get contacts JSON
 //    private static String url = "http://api.androidhive.info/contacts/";
-    private static String url = "http://141.70.55.157:8080/api/artists/";
+    private static String url = "http://141.70.55.157:8080/api/images/";
 
     ArrayList<HashMap<String, String>> contactList;
+    ArrayList<ImageData> imagedatalist;
 
 
 
@@ -98,11 +100,13 @@ private String TAG = MainActivity.class.getSimpleName();
 
         //API
         contactList = new ArrayList<>();
+        imagedatalist = new ArrayList<>();
 
         lv = (ListView) findViewById(R.id.list);
 
         //Get JSON (I think)
         new GetContacts().execute();
+
     }
 
 
@@ -227,11 +231,10 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     JSONObject c = jsonObj.getJSONObject(i);
                     System.out.println("meh count" + c);
 
-                    String id = c.getString("id");
-                    String name = c.getString("name");
-                    String birthPlace = c.getString("birthPlace");
-                    String birthDate = c.getString("birthDate");
-                    String favoritebool = c.getString("favoritebool");
+                    String id = c.getString("timestamp");
+                    String name = c.getString("source");
+                    String birthPlace = c.getString("title");
+                    String birthDate = c.getString("description");
 
                     // tmp hash map for single contact
                     HashMap<String, String> contact = new HashMap<>();
@@ -241,9 +244,9 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     contact.put("name", name);
                     contact.put("birthPlace", birthPlace);
                     contact.put("birthDate", birthDate);
-                    contact.put("favoritebool", favoritebool);
-
+                    ImageData img = new ImageData(id, name, birthPlace, birthDate);
                     // adding contact to contact list
+                    imagedatalist.add(img);
                     contactList.add(contact);
                 }
             } catch (final JSONException e) {
@@ -286,11 +289,38 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
         /**
          * Updating parsed JSON data into ListView
          * */
-        ListAdapter adapter = new SimpleAdapter(
-                MainActivity.this, contactList,
-                R.layout.list_item, new String[]{"id", "name",
-                "birthPlace"}, new int[]{R.id.name,
-                R.id.email, R.id.mobile});
+        //ADAPTER TEST
+        String[] itemname ={
+                "Safari",
+                "Camera",
+                "Global",
+                "FireFox",
+                "UC Browser",
+                "Android Folder",
+                "VLC Player",
+                "Cold War"
+        };
+
+        Integer[] imgid={
+                R.drawable.iconround,
+                R.drawable.iconsquare,
+                R.drawable.iconround,
+                R.drawable.iconsquare,
+                R.drawable.iconround,
+                R.drawable.iconsquare,
+                R.drawable.iconround,
+                R.drawable.iconsquare,
+        };
+
+
+        CustomListAdapter adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
+
+
+//        ListAdapter adapter = new SimpleAdapter(
+//                MainActivity.this, contactList,
+//                R.layout.list_item, new String[]{"id", "name",
+//                "birthPlace"}, new int[]{R.id.image,
+//                R.id.email, R.id.mobile});
 
         lv.setAdapter(adapter);
     }
