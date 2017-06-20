@@ -1,14 +1,19 @@
 package com.vogella.android.tap4share;
 
 
+import android.Manifest;
 import android.app.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +31,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -67,6 +79,20 @@ private String TAG = MainActivity.class.getSimpleName();
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {//Can add more as per requirement
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                    123);
+
+        } else {
+
+        }
 
         bindView();
 
@@ -178,17 +204,38 @@ private String TAG = MainActivity.class.getSimpleName();
             System.out.println("heeeej: " + picture);
             imageView.setImageBitmap(picture);
 
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            File destination = new File(Environment.getExternalStorageDirectory(),"temp.jpg");
+
+
+            FileOutputStream fo;
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            try {
+                fo = new FileOutputStream(destination);
+                fo.write(byteArray);
+                fo.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("SE HER mappe: " + Environment.getExternalStorageDirectory());
+            System.out.println("SE HER fil: " + destination);
+
+            new uploadFileToServerTask().execute(destination.getAbsolutePath());
             //Convert to byte array
 //            ByteArrayOutputStream stream = new ByteArrayOutputStream();
 //            picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
 //            byte[] byteArray = stream.toByteArray();
-            ByteArrayOutputStream bs = new ByteArrayOutputStream();
-            picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
-
-//            System.out.println("qreeeerefsdfsdfsd");
-            Intent i = new Intent(this, ImageInsert.class);
-            i.putExtra("camera_image", bs.toByteArray());
-            startActivity(i);
+//            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//            picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
+//
+////            System.out.println("qreeeerefsdfsdfsd");
+//            Intent i = new Intent(this, ImageInsert.class);
+//            i.putExtra("camera_image", bs.toByteArray());
+//            startActivity(i);
         }
     }
 
@@ -326,5 +373,122 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
     }
 
 }
+
+    //INSERT IMAGE NR 3 TRY
+    private class uploadFileToServerTask extends AsyncTask<String, String, Object> {
+        @Override
+        protected String doInBackground(String... args) {
+            try {
+                String lineEnd = "\r\n";
+                String twoHyphens = "--";
+                String boundary = "*****";
+                int bytesRead, bytesAvailable, bufferSize;
+                byte[] buffer;
+                @SuppressWarnings("PointlessArithmeticExpression")
+                int maxBufferSize = 1 * 1024 * 1024;
+
+
+//                java.net.URL url = new URL((ApplicationConstant.UPLOAD_IMAGE_URL) + IMAGE + customer_id);
+//                Log.d(ApplicationConstant.TAG, "url " + url);
+                URL url = new URL("http://141.70.55.157:8080/api/uploadfile");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // Allow Inputs &amp; Outputs.
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+
+                // Set HTTP method to POST.
+                connection.setRequestMethod("POST");
+
+                connection.setRequestProperty("Connection", "Keep-Alive");
+                connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+                FileInputStream fileInputStream;
+                DataOutputStream outputStream;
+                {
+                    outputStream = new DataOutputStream(connection.getOutputStream());
+
+                    outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                    String filename = args[0];
+                    outputStream.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + filename + "\"" + lineEnd);
+                    outputStream.writeBytes(lineEnd);
+//                    Log.d(ApplicationConstant.TAG, "filename " + filename);
+
+                    fileInputStream = new FileInputStream(filename);
+
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+
+                    buffer = new byte[bufferSize];
+
+                    // Read file
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+                        outputStream.write(buffer, 0, bufferSize);
+                        bytesAvailable = fileInputStream.available();
+                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                    }
+                    outputStream.writeBytes(lineEnd);
+                    outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                }
+
+                int serverResponseCode = connection.getResponseCode();
+                String serverResponseMessage = connection.getResponseMessage();
+                Log.d("serverResponseCode", "" + serverResponseCode);
+                Log.d("serverResponseMessage", "" + serverResponseMessage);
+
+                fileInputStream.close();
+                outputStream.flush();
+                outputStream.close();
+
+                if (serverResponseCode == 200) {
+                    return "true";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "false";
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults)
+    {
+        switch (requestCode) {
+            case 123: {
+
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)     {
+                    //Peform your task here if any
+                } else {
+
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {//Can add more as per requirement
+
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                                123);
+
+                    } else {
+
+                    }
+                }
+                return;
+            }
+        }
+    }
 
 }

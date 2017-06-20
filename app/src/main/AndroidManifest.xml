@@ -9,6 +9,10 @@
     <!--for API (GET POST etc...) -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--for accessing temporary image before POST request-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <!--<uses-feature android:name="android.hardware.camera" />-->
 
     <!--for camera-->
