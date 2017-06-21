@@ -30,12 +30,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -71,6 +73,7 @@ private String TAG = MainActivity.class.getSimpleName();
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int CAMERA_REQUEST = 1888;
+    Bitmap picture;
 
 
 
@@ -200,7 +203,7 @@ private String TAG = MainActivity.class.getSimpleName();
         System.out.println("here is: " + resultCode);
         if (requestCode == CAMERA_REQUEST && resultCode != 0) {
             //System.exit(0);
-            Bitmap picture = (Bitmap) data.getExtras().get("data");
+            picture = (Bitmap) data.getExtras().get("data");
             System.out.println("heeeej: " + picture);
             imageView.setImageBitmap(picture);
 
@@ -225,12 +228,8 @@ private String TAG = MainActivity.class.getSimpleName();
             System.out.println("SE HER fil: " + destination);
 
             new uploadFileToServerTask().execute(destination.getAbsolutePath());
-            //Convert to byte array
-//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//            picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//            byte[] byteArray = stream.toByteArray();
-//            ByteArrayOutputStream bs = new ByteArrayOutputStream();
-//            picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
+
+
 //
 ////            System.out.println("qreeeerefsdfsdfsd");
 //            Intent i = new Intent(this, ImageInsert.class);
@@ -376,6 +375,8 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
 
     //INSERT IMAGE NR 3 TRY
     private class uploadFileToServerTask extends AsyncTask<String, String, Object> {
+        StringBuilder sb;
+
         @Override
         protected String doInBackground(String... args) {
             try {
@@ -408,15 +409,16 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                 DataOutputStream outputStream;
                 {
                     outputStream = new DataOutputStream(connection.getOutputStream());
-
+                    System.out.println("HERE IS OUTPUT STREAM: " + outputStream);
                     outputStream.writeBytes(twoHyphens + boundary + lineEnd);
                     String filename = args[0];
+                    System.out.println("HERE IS FILENAME: " + filename);
                     outputStream.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + filename + "\"" + lineEnd);
                     outputStream.writeBytes(lineEnd);
 //                    Log.d(ApplicationConstant.TAG, "filename " + filename);
 
                     fileInputStream = new FileInputStream(filename);
-
+                    System.out.println("HERE IS FILEINPUT STREAM: " + fileInputStream);
                     bytesAvailable = fileInputStream.available();
                     bufferSize = Math.min(bytesAvailable, maxBufferSize);
 
@@ -434,7 +436,7 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     outputStream.writeBytes(lineEnd);
                     outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
                 }
-
+                System.out.println("HERE IS OUTSTREAM STREAM AGAIN: " + outputStream);
                 int serverResponseCode = connection.getResponseCode();
                 String serverResponseMessage = connection.getResponseMessage();
                 Log.d("serverResponseCode", "" + serverResponseCode);
@@ -445,7 +447,19 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                 outputStream.close();
 
                 if (serverResponseCode == 200) {
-                    return "true";
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    System.out.println("HERE IS BUFFERED READER" + br);
+                    sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    br.close();
+                    System.out.println("HERE IS SB" + sb.toString());
+                    return sb.toString();
+
+//                    return "true";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -455,7 +469,21 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPostExecute(Object result) {
+            //Convert to byte array
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
 
+            System.out.println("HERE IS POST SB: " + sb.toString());
+            String sb_intent = sb.substring(1,sb.length()-2);
+            System.out.println("SB CAHNGE: " + sb_intent);
+
+            Intent i = new Intent(MainActivity.this, ImageInsert.class);
+            i.putExtra("camera_image", bs.toByteArray());
+            i.putExtra("camera_image_name", sb_intent);
+            startActivity(i);
         }
     }
 

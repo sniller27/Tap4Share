@@ -40,6 +40,7 @@ import java.util.Map;
 public class ImageInsert extends AppCompatActivity {
 
     String newString;
+    String imagename;
     ImageView imageView;
     Bitmap bmp;
 
@@ -62,6 +63,9 @@ public class ImageInsert extends AppCompatActivity {
 
                 //method 1 (for bitarray)
                 byte[] byteArray = getIntent().getByteArrayExtra("camera_image");
+
+                System.out.println("IMAGENAME: " + extras.getString("camera_image_name"));
+                imagename = extras.getString("camera_image_name");
 
                 if (byteArray == null){
                     System.out.println("it iss null!");
@@ -144,7 +148,7 @@ public class ImageInsert extends AppCompatActivity {
 
                         HashMap<String, String> params2 = new HashMap<String, String>();
                         params2.put("timestamp", format.toString());
-                        params2.put("source", "cat.png");
+                        params2.put("source", imagename);
                         params2.put("title", artistname);
                         params2.put("description", artistbirthplace);
 
