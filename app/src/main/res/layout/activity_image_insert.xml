@@ -38,8 +38,8 @@
         <EditText
             android:id="@+id/imagedescription"
             android:inputType="textMultiLine"
-            android:lines="8"
-            android:minLines="6"
+            android:lines="2"
+            android:minLines="2"
             android:gravity="top|left"
             android:maxLines="10"
             android:layout_height="wrap_content"

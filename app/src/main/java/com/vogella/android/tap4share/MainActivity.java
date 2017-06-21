@@ -6,6 +6,7 @@ import android.app.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -88,6 +89,8 @@ private String TAG = MainActivity.class.getSimpleName();
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -211,7 +214,7 @@ private String TAG = MainActivity.class.getSimpleName();
             //System.exit(0);
             picture = (Bitmap) data.getExtras().get("data");
             System.out.println("heeeej: " + picture);
-            imageView.setImageBitmap(picture);
+//            imageView.setImageBitmap(picture);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);

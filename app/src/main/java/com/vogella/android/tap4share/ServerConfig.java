@@ -5,7 +5,7 @@ package com.vogella.android.tap4share;
  */
 
 public class ServerConfig {
-    private String serverip = "141.70.55.157";
+    private String serverip = "192.168.0.109";
     private String serverport = "8080";
 
     public String getServerip() {
