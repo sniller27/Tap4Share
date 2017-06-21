@@ -58,7 +58,6 @@ private String TAG = MainActivity.class.getSimpleName();
     ServerConfig servconfig;
 
     // URL to get contacts JSON
-//    private static String url = "http://api.androidhive.info/contacts/";
     private static String url;
 
     public MainActivity() {
@@ -109,20 +108,6 @@ private String TAG = MainActivity.class.getSimpleName();
         bindView();
 
         TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
-//        this.imageView=(ImageView) this.findViewById(R.id.imageView1);
-
-//        tabTap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                tabTap.setSelected(true);
-////                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-////                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//                }
-//            }
-//        });
 
         photoButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -153,60 +138,8 @@ private String TAG = MainActivity.class.getSimpleName();
         tabHome = (TextView) this.findViewById(R.id.text_home);
         tabTap = (TextView) this.findViewById(R.id.text_tap);
         tabHome.setSelected(true);
-//        tabHome.setOnClickListener(this);
-//        tabTap.setOnClickListener(this);
     }
 
-//    //reset selected text
-//    public void selected() {
-//        tabHome.setSelected(false);
-//        tabTap.setSelected(false);
-//    }
-
-
-//    @Override
-//    public void onClick(View v) {
-//
-//        switch (v.getId()) {
-//            case R.id.text_home:
-//                selected();
-//                tabHome.setSelected(true);
-//
-//                break;
-//
-//            case R.id.text_tap:
-//                selected();
-//                tabTap.setSelected(true);
-//
-//                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//                }
-//
-//                break;
-//
-//        }
-//    }
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            image = (ImageView)this.findViewById(R.id.mImageView);
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            image.setImageBitmap(imageBitmap);
-//        }
-//    }
-
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if (requestCode == CAMERA_REQUEST) {
-//            //System.exit(0);
-//            Bitmap picture = (Bitmap) data.getExtras().get("data");
-//            image.setImageBitmap(picture);
-//        }
-//    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("here is: " + resultCode);
@@ -214,7 +147,6 @@ private String TAG = MainActivity.class.getSimpleName();
             //System.exit(0);
             picture = (Bitmap) data.getExtras().get("data");
             System.out.println("heeeej: " + picture);
-//            imageView.setImageBitmap(picture);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -238,12 +170,6 @@ private String TAG = MainActivity.class.getSimpleName();
 
             new uploadFileToServerTask().execute(destination.getAbsolutePath());
 
-
-//
-////            System.out.println("qreeeerefsdfsdfsd");
-//            Intent i = new Intent(this, ImageInsert.class);
-//            i.putExtra("camera_image", bs.toByteArray());
-//            startActivity(i);
         }
     }
 
@@ -276,9 +202,6 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
         if (jsonStr != null) {
             try {
                 JSONArray jsonObj = new JSONArray(jsonStr);
-
-                // Getting JSON Array node
-//                    JSONArray contacts = jsonObj.getJSONArray("contacts");
 
 //                    // looping through All Contacts
                 for (int i = 0; i < jsonObj.length(); i++) {
@@ -370,13 +293,6 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
 
         CustomListAdapter adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
 
-
-//        ListAdapter adapter = new SimpleAdapter(
-//                MainActivity.this, contactList,
-//                R.layout.list_item, new String[]{"id", "name",
-//                "birthPlace"}, new int[]{R.id.image,
-//                R.id.email, R.id.mobile});
-
         lv.setAdapter(adapter);
     }
 
@@ -397,9 +313,6 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                 @SuppressWarnings("PointlessArithmeticExpression")
                 int maxBufferSize = 1 * 1024 * 1024;
 
-
-//                java.net.URL url = new URL((ApplicationConstant.UPLOAD_IMAGE_URL) + IMAGE + customer_id);
-//                Log.d(ApplicationConstant.TAG, "url " + url);
                 URL url = new URL("http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/uploadfile");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -424,7 +337,6 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     System.out.println("HERE IS FILENAME: " + filename);
                     outputStream.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + filename + "\"" + lineEnd);
                     outputStream.writeBytes(lineEnd);
-//                    Log.d(ApplicationConstant.TAG, "filename " + filename);
 
                     fileInputStream = new FileInputStream(filename);
                     System.out.println("HERE IS FILEINPUT STREAM: " + fileInputStream);

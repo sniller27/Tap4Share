@@ -58,11 +58,6 @@ public class ImageInsert extends AppCompatActivity {
             if(extras == null) {
                 newString= null;
             } else {
-//                Intent camera_intent = getIntent();
-//                newString= extras.getString("camera_image");
-//                Bitmap bitcamera = (Bitmap) camera_intent.getParcelableExtra("camera_image");
-//                Bitmap bitcamera = extras.getString("camera_image");
-
                 //method 1 (for bitarray)
                 byte[] byteArray = getIntent().getByteArrayExtra("camera_image");
 
@@ -78,10 +73,6 @@ public class ImageInsert extends AppCompatActivity {
                     System.out.println("bitmap iss null!");
                 }
 
-                //method 2
-//                Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("camera_image");
-
-//                System.out.println("data typen: " + bitcamera.getClass().getName());
                 System.out.println(imageView);
                 imageView.setImageBitmap(bmp);
             }
@@ -99,8 +90,6 @@ public class ImageInsert extends AppCompatActivity {
             public void onClick(View v) {
                 final String artistname =  ((EditText) findViewById(R.id.imagetitle)).getText().toString();
                 final String artistbirthplace =  ((EditText) findViewById(R.id.imagedescription)).getText().toString();
-//                final String artistbdate =  ((EditText) findViewById(R.id.artistbdate)).getText().toString();
-//                final String artistfavorite =  ((EditText) findViewById(R.id.artistfavorite)).getText().toString();
 
                 // Code here executes on main thread after user presses button
 
@@ -147,11 +136,8 @@ public class ImageInsert extends AppCompatActivity {
                     }
                 };
 
-
-
-// Add the request to the RequestQueue.
+                // Add the request to the RequestQueue.
                 queue.add(sr);
-
 
                 Intent back = new Intent();
                 back.setClass(ImageInsert.this, MainActivity.class);

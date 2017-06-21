@@ -40,21 +40,12 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
 
         TextView txtTitle = (TextView) rowView.findViewById(R.id.mobile);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.image);
-//        TextView extratxt = (TextView) rowView.findViewById(R.id.textView1);
 
         txtTitle.setText(imgid.get(position).getDescription());
 
-        //get image from URL
-
-//            InputStream is = (InputStream) new URL("http://141.70.55.157:8080/api/cat").getContent();
-//            Drawable d = Drawable.createFromStream(is, "src name");
 
             Picasso.with(getContext()).load("http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/imagefile?name=" + imgid.get(position).getSource()).into(imageView);
-//            imageView.setImageResource(R.mipmap.home_click);
 
-
-
-//        extratxt.setText("Description "+itemname[position]);
         return rowView;
 
     };

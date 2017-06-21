@@ -2,18 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vogella.android.tap4share">
 
-    <!--<uses-permission-->
-        <!--android:name="android.permission.CAMERA"-->
-        <!--android:required="true" />-->
-
     <!--for API (GET POST etc...) -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!--for accessing temporary image before POST request-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    <!--<uses-feature android:name="android.hardware.camera" />-->
 
     <!--for camera-->
     <uses-feature android:name="android.hardware.camera"
