@@ -54,10 +54,16 @@ private String TAG = MainActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private ListView lv;
     String[] itemname;
+    ServerConfig servconfig;
 
     // URL to get contacts JSON
 //    private static String url = "http://api.androidhive.info/contacts/";
-    private static String url = "http://141.70.55.157:8080/api/images/";
+    private static String url;
+
+    public MainActivity() {
+        servconfig = new ServerConfig();
+        url = "http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/images/";
+    }
 
     ArrayList<HashMap<String, String>> contactList;
     ArrayList<ImageData> imagedatalist;
@@ -100,7 +106,7 @@ private String TAG = MainActivity.class.getSimpleName();
         bindView();
 
         TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
-        this.imageView=(ImageView) this.findViewById(R.id.imageView1);
+//        this.imageView=(ImageView) this.findViewById(R.id.imageView1);
 
 //        tabTap.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -391,7 +397,7 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
 
 //                java.net.URL url = new URL((ApplicationConstant.UPLOAD_IMAGE_URL) + IMAGE + customer_id);
 //                Log.d(ApplicationConstant.TAG, "url " + url);
-                URL url = new URL("http://141.70.55.157:8080/api/uploadfile");
+                URL url = new URL("http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/uploadfile");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 // Allow Inputs &amp; Outputs.

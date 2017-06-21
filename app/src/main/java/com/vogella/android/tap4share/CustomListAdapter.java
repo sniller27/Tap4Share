@@ -23,13 +23,14 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
 
     private final Activity context;
     private ArrayList<ImageData> imgid;
-
+    ServerConfig servconfig;
     public CustomListAdapter(Activity context, int itemname, ArrayList<ImageData> imgid) {
         super(context, itemname, imgid);
         // TODO Auto-generated constructor stub
 
         this.context=context;
         this.imgid=imgid;
+        servconfig = new ServerConfig();
     }
 
     public View getView(int position, View view, ViewGroup parent) {
@@ -48,7 +49,7 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
 //            InputStream is = (InputStream) new URL("http://141.70.55.157:8080/api/cat").getContent();
 //            Drawable d = Drawable.createFromStream(is, "src name");
 
-            Picasso.with(getContext()).load("http://141.70.55.157:8080/api/imagefile?name=" + imgid.get(position).getSource()).into(imageView);
+            Picasso.with(getContext()).load("http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/imagefile?name=" + imgid.get(position).getSource()).into(imageView);
 //            imageView.setImageResource(R.mipmap.home_click);
 
 
