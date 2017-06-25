@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -43,6 +44,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -107,6 +109,10 @@ private String TAG = MainActivity.class.getSimpleName();
 
         bindView();
 
+        /**
+         * LISTENERS
+         * **/
+
         TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
 
         photoButton.setOnClickListener(new View.OnClickListener(){
@@ -117,8 +123,24 @@ private String TAG = MainActivity.class.getSimpleName();
             }
         });
 
-        System.out.println("HERE IS " + imageView);
-
+//        ListView imagelistview = (ListView) this.findViewById(R.id.list);
+//
+//        imagelistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                System.out.println("LISTENER1: " + parent.getItemAtPosition(position));
+//                System.out.println("POSITION: " + position);
+//                System.out.println("VIEW: " + view);
+//                System.out.println("ID: " + id);
+//
+//                Toast.makeText(getApplicationContext(), "Your image has been shared!", Toast.LENGTH_LONG).show();
+//
+//
+//                Intent intent = new Intent(MainActivity.this,SingleImageInfo.class);
+//                //based on item add info to intent
+//                startActivity(intent);
+//            }
+//        });
 
 
         //API
