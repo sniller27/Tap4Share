@@ -43,8 +43,7 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
 
         txtTitle.setText(imgid.get(position).getDescription());
 
-
-            Picasso.with(getContext()).load("http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/imagefile?name=" + imgid.get(position).getSource()).into(imageView);
+            Picasso.with(getContext()).load(servconfig.getSingle_image_by_name() + imgid.get(position).getSource()).into(imageView);
 
         return rowView;
 

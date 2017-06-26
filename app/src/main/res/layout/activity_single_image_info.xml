@@ -6,4 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.vogella.android.tap4share.SingleImageInfo">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue">
+
+        <TextView
+            android:id="@+id/singleimage_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"/>
+
+        <TextView
+            android:id="@+id/singleimage_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/singleimage_title"
+            android:background="@color/blue"/>
+
+        <ImageView
+            android:id="@+id/singleimage_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/singleimage_description"/>
+
+
+    </RelativeLayout>
+
+
 </android.support.constraint.ConstraintLayout>

@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -56,8 +57,8 @@ private String TAG = MainActivity.class.getSimpleName();
 
     private ProgressDialog pDialog;
     private ListView lv;
-    String[] itemname;
     ServerConfig servconfig;
+    CustomListAdapter adapter;
 
     // URL to get contacts JSON
     private static String url;
@@ -123,11 +124,11 @@ private String TAG = MainActivity.class.getSimpleName();
             }
         });
 
-//        ListView imagelistview = (ListView) this.findViewById(R.id.list);
-//
-//        imagelistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ListView imagelistview = (ListView) this.findViewById(R.id.list);
+
+        imagelistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                System.out.println("LISTENER1: " + parent.getItemAtPosition(position));
 //                System.out.println("POSITION: " + position);
 //                System.out.println("VIEW: " + view);
@@ -139,9 +140,60 @@ private String TAG = MainActivity.class.getSimpleName();
 //                Intent intent = new Intent(MainActivity.this,SingleImageInfo.class);
 //                //based on item add info to intent
 //                startActivity(intent);
-//            }
-//        });
 
+
+
+
+////                ARRAYADAPTER ADD
+//                ImageData ko = new ImageData("15", "adsssd", "asss", "ddd");
+//                imagedatalist.add(ko);
+//
+////                final ArrayAdapter adapter1 = ((ArrayAdapter)getListAdapter());
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        mInfo.setText(str);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                });
+
+                ImageData item = (ImageData) adapter.getItem(position);
+//                System.out.println("HARSSS ITEM: " + item.getTimestamp());
+
+                Intent intent = new Intent(MainActivity.this,SingleImageInfo.class);
+                //based on item add info to intent
+//                intent.putExtra("id", item.getTimestamp());
+
+//              BITMAP TO BYTEARRAY
+//                ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//                picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
+//                intent.putExtra("description", bs.toByteArray());
+
+                intent.putExtra("description", item.getDescription());
+                intent.putExtra("title", item.getTitle());
+                intent.putExtra("imagefilename", item.getSource());
+                startActivity(intent);
+
+
+            }
+        });
+
+
+        //API
+//        contactList = new ArrayList<>();
+//        imagedatalist = new ArrayList<>();
+//
+//        lv = (ListView) findViewById(R.id.list);
+//
+//        //Get JSON (I think)
+//        new GetContacts().execute();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         //API
         contactList = new ArrayList<>();
@@ -151,9 +203,9 @@ private String TAG = MainActivity.class.getSimpleName();
 
         //Get JSON (I think)
         new GetContacts().execute();
+        System.out.println("RESUME GOES!!!");
 
     }
-
 
     //UI initialize
     private void bindView() {
@@ -231,20 +283,21 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     JSONObject c = jsonObj.getJSONObject(i);
                     System.out.println("meh count" + c);
 
-                    String id = c.getString("timestamp");
-                    String name = c.getString("source");
-                    String birthPlace = c.getString("title");
-                    String birthDate = c.getString("description");
-
+                    String id = c.getString("imageid");
+                    String imagefilename = c.getString("source");
+                    String title = c.getString("title");
+                    String description = c.getString("description");
+System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + title + " and " + description);
                     // tmp hash map for single contact
                     HashMap<String, String> contact = new HashMap<>();
 
                     // adding each child node to HashMap key => value
                     contact.put("id", id);
-                    contact.put("name", name);
-                    contact.put("birthPlace", birthPlace);
-                    contact.put("birthDate", birthDate);
-                    ImageData img = new ImageData(id, name, birthPlace, birthDate);
+                    contact.put("imagefilename", imagefilename);
+                    contact.put("title", title);
+                    contact.put("description", description);
+                    ImageData img = new ImageData(id, imagefilename, title, description);
+
                     // adding contact to contact list
                     imagedatalist.add(img);
                     contactList.add(contact);
@@ -289,33 +342,11 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
         /**
          * Updating parsed JSON data into ListView
          * */
-        //ADAPTER TEST
-        String[] itemname ={
-                "Safari",
-                "Camera",
-                "Global",
-                "FireFox",
-                "UC Browser",
-                "Android Folder",
-                "VLC Player",
-                "Cold War"
-        };
 
-        Integer[] imgid={
-                R.drawable.iconround,
-                R.drawable.iconsquare,
-                R.drawable.iconround,
-                R.drawable.iconsquare,
-                R.drawable.iconround,
-                R.drawable.iconsquare,
-                R.drawable.iconround,
-                R.drawable.iconsquare,
-        };
-
-
-        CustomListAdapter adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
+        adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
 
         lv.setAdapter(adapter);
+
     }
 
 }
