@@ -116,6 +116,7 @@ private String TAG = MainActivity.class.getSimpleName();
 
         TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
 
+        //camera button
         photoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -124,6 +125,18 @@ private String TAG = MainActivity.class.getSimpleName();
             }
         });
 
+        //shake button
+        TextView shakeButton = (TextView) this.findViewById(R.id.text_shake);
+
+        shakeButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,ShakeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        //listview click
         ListView imagelistview = (ListView) this.findViewById(R.id.list);
 
         imagelistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){

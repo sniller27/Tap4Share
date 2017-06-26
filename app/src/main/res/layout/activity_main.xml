@@ -84,17 +84,17 @@
             android:textColor="@drawable/tab_menu_text"
             android:text="TAP!"/>
 
-        <!--<TextView-->
-            <!--android:id="@+id/text_shake"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/tab_menu_background"-->
-            <!--android:drawablePadding="3dp"-->
-            <!--android:drawableTop="@drawable/tab_menu_shake"-->
-            <!--android:gravity="center"-->
-            <!--android:textColor="@drawable/tab_menu_text"-->
-            <!--android:text="Shake"/>-->
+        <TextView
+            android:id="@+id/text_shake"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_menu_background"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/tab_menu_tap"
+            android:gravity="center"
+            android:textColor="@drawable/tab_menu_text"
+            android:text="Shake"/>
 
 
 
