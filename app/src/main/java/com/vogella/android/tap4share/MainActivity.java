@@ -188,7 +188,6 @@ private String TAG = MainActivity.class.getSimpleName();
                 intent.putExtra("imagefilename", item.getSource());
                 startActivity(intent);
 
-
             }
         });
 
@@ -505,5 +504,4 @@ System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + titl
             }
         }
     }
-
 }
