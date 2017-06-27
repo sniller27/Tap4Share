@@ -12,8 +12,10 @@ public class SingleImageInfo extends AppCompatActivity {
 
     TextView title;
     TextView description;
+    TextView location;
     ImageView image;
     ServerConfig servconfig;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +27,14 @@ public class SingleImageInfo extends AppCompatActivity {
 
         title = (TextView) findViewById(R.id.singleimage_title);
         description = (TextView) findViewById(R.id.singleimage_description);
+        location = (TextView) findViewById(R.id.singleimage_location);
         image = (ImageView) findViewById(R.id.singleimage_image);
 
         Bundle extras = getIntent().getExtras();
 
         title.setText(extras.getString("title"));
         description.setText(extras.getString("description"));
+        location.setText(extras.getString("location"));
 
         //image
         Picasso.with(SingleImageInfo.this).load(servconfig.getSingle_image_by_name() + extras.getString("imagefilename")).into(image);

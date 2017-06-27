@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -80,27 +81,28 @@ public class ImageInsert extends AppCompatActivity {
             newString = (String) savedInstanceState.getSerializable("STRING_I_NEED");
         }
 
-
-
-
         //API POST INSERT
         //Button
         final Button button = (Button) findViewById(R.id.send_post_request);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final String artistname =  ((EditText) findViewById(R.id.imagetitle)).getText().toString();
-                final String artistbirthplace =  ((EditText) findViewById(R.id.imagedescription)).getText().toString();
+                final String imagetitle =  ((EditText) findViewById(R.id.imagetitle)).getText().toString();
+                final String imagedescription =  ((EditText) findViewById(R.id.imagedescription)).getText().toString();
+                CheckBox locationcheckbox =  ((CheckBox) findViewById(R.id.checkbox_location_enabled));
+                final String location;
+                if(locationcheckbox.isChecked()){
+                    location = "haslocation";
+                }else {
+                    location = "unknown";
+                }
 
                 // Code here executes on main thread after user presses button
 
                 Toast.makeText(getApplicationContext(), "Your image has been shared!", Toast.LENGTH_LONG).show();
 
-
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 String url ="http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/image";
-
-
 
 
                 //SOLUTION 2 STRINGREQUEST
@@ -124,8 +126,9 @@ public class ImageInsert extends AppCompatActivity {
                         HashMap<String, String> params2 = new HashMap<String, String>();
                         params2.put("timestamp", format.toString());
                         params2.put("source", imagename);
-                        params2.put("title", artistname);
-                        params2.put("description", artistbirthplace);
+                        params2.put("title", imagetitle);
+                        params2.put("description", imagedescription);
+                        params2.put("location", location);
 
                         return new JSONObject(params2).toString().getBytes();
                     }
@@ -147,11 +150,5 @@ public class ImageInsert extends AppCompatActivity {
 
 
         });
-
-
-
     }
-
-
-
 }

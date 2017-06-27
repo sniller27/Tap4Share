@@ -120,8 +120,14 @@ System.out.println("DINE RUNS!");
                     String title = jsonObj.getString("title");
                     String description = jsonObj.getString("description");
                     String source = jsonObj.getString("source");
+                    String location = "still unknown";
+                    try {
+                        location = jsonObj.getString("location");
+                    }catch (Exception e){
 
-                    imageData = new ImageData(imageid, source, title, description);
+                    }
+
+                    imageData = new ImageData(imageid, source, title, description, location);
 
 //                    JSONArray jsonObj = new JSONArray(jsonStr);
 
@@ -193,6 +199,7 @@ System.out.println("DINE RUNS!");
             intent.putExtra("description", imageData.getDescription());
             intent.putExtra("title", imageData.getTitle());
             intent.putExtra("imagefilename", imageData.getSource());
+            intent.putExtra("location", imageData.getLocation());
 
             startActivity(intent);
 

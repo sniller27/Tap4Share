@@ -186,6 +186,7 @@ private String TAG = MainActivity.class.getSimpleName();
                 intent.putExtra("description", item.getDescription());
                 intent.putExtra("title", item.getTitle());
                 intent.putExtra("imagefilename", item.getSource());
+                intent.putExtra("location", item.getLocation());
                 startActivity(intent);
 
             }
@@ -299,6 +300,12 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     String imagefilename = c.getString("source");
                     String title = c.getString("title");
                     String description = c.getString("description");
+                    String location = "just unknown";
+                    try {
+                        location = c.getString("location");
+                    }catch (Exception e){
+
+                    }
 System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + title + " and " + description);
                     // tmp hash map for single contact
                     HashMap<String, String> contact = new HashMap<>();
@@ -308,7 +315,8 @@ System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + titl
                     contact.put("imagefilename", imagefilename);
                     contact.put("title", title);
                     contact.put("description", description);
-                    ImageData img = new ImageData(id, imagefilename, title, description);
+                    contact.put("location", location);
+                    ImageData img = new ImageData(id, imagefilename, title, description, location);
 
                     // adding contact to contact list
                     imagedatalist.add(img);

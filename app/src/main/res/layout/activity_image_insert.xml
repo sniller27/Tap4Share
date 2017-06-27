@@ -20,12 +20,19 @@
 
         <ImageView
             android:id="@+id/photo"
-            android:layout_width="600px"
-            android:layout_height="600px"
+            android:layout_width="550px"
+            android:layout_height="550px"
             android:contentDescription="@string/app_name"
             android:src="@drawable/tab_menu_tap"
             android:layout_below="@+id/insertartistheader"
             android:layout_centerInParent="true"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_location_enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share location"
+            android:layout_below="@+id/photo"/>
 
         <EditText
             android:id="@+id/imagetitle"
@@ -33,7 +40,7 @@
             android:layout_height="wrap_content"
             android:hint="Title"
             android:inputType="text"
-            android:layout_below="@+id/photo"/>
+            android:layout_below="@+id/checkbox_location_enabled"/>
 
         <EditText
             android:id="@+id/imagedescription"

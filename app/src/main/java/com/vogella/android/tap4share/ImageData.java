@@ -10,12 +10,14 @@ public class ImageData {
     private String source;
     private String title;
     private String description;
+    private String location;
 
-    public ImageData(String timestamp, String source, String title, String description) {
+    public ImageData(String timestamp, String source, String title, String description, String location) {
         this.timestamp = timestamp;
         this.source = source;
         this.title = title;
         this.description = description;
+        this.location = location;
     }
 
     public String getTimestamp() {
@@ -48,5 +50,9 @@ public class ImageData {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }
