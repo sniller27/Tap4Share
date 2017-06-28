@@ -15,7 +15,8 @@
         <ListView
             android:id="@+id/list"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="120px"/>
 
     </RelativeLayout>
 
@@ -24,18 +25,18 @@
     <RelativeLayout
         android:id="@+id/tab_title"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="match_parent"
         android:background="@color/transparent">
 
 
-        <TextView
-            android:id="@+id/text_top"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textColor="@color/grey"
-            android:text= "Tap4Share" />
+        <!--<TextView-->
+            <!--android:id="@+id/text_top"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="24sp"-->
+            <!--android:textColor="@color/grey"-->
+            <!--android:text= "Tap4Share" />-->
 
         <!--<View-->
             <!--android:layout_width="match_parent"-->
@@ -43,12 +44,11 @@
             <!--android:background="@color/grey"-->
             <!--android:layout_alignParentBottom="true"/>-->
 
-        <ImageView
-            android:id="@+id/photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:layout_below="@+id/text_top" />
+        <!--<ImageView-->
+            <!--android:id="@+id/photo"-->
+            <!--android:layout_width="500px"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:contentDescription="@string/app_name" />-->
     </RelativeLayout>
 
 

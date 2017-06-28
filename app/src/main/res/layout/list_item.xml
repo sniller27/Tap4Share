@@ -8,8 +8,10 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="300px"
-        android:layout_height="300px"
+        android:layout_height="match_parent"
         android:src="@mipmap/ic_launcher"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         />
 
     <TextView
@@ -21,7 +23,9 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_toRightOf="@+id/image"/>
+        android:layout_toRightOf="@+id/image"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"/>
 
     <TextView
         android:id="@+id/email"
@@ -31,6 +35,8 @@
         android:textColor="@color/colorAccent"
         android:layout_below="@+id/name"
         android:layout_toRightOf="@+id/image"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         />
 
     <TextView
@@ -39,8 +45,11 @@
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
         android:textStyle="bold"
+        android:textSize="20sp"
         android:layout_below="@+id/email"
         android:layout_toRightOf="@+id/image"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         />
 
 
