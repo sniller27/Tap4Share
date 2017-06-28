@@ -6,45 +6,41 @@
     android:layout_height="match_parent"
     tools:context="com.vogella.android.tap4share.ShakeActivity">
 
-    <LinearLayout
-        android:layout_width="395dp"
-        android:layout_height="587dp"
-        android:background="@color/white"
-        android:gravity="center_horizontal"
-        android:weightSum="1"
-        >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:maxWidth="300dp"
             android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="50px"
+            android:background="@color/white"
+            android:adjustViewBounds="true"
             android:src="@drawable/logo"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:maxHeight="400dp"
-            android:layout_above="@+id/LOGO"
-            android:id="@+id/shake"
-            android:src="@drawable/shake"
-            android:layout_weight="0.69" />
-
         <TextView
+            android:id="@+id/shaketext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:textSize="40dp"
-            android:text="Shake Your Phone!"/>
+            android:text="Shake Your Phone!"
+            android:layout_below="@+id/logo"/>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/shake"
+            android:src="@drawable/shake2"
+            android:layout_below="@+id/shaketext"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"/>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>
