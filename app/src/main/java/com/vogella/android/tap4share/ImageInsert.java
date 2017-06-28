@@ -86,8 +86,14 @@ public class ImageInsert extends AppCompatActivity {
         final Button button = (Button) findViewById(R.id.send_post_request);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final String imagetitle =  ((EditText) findViewById(R.id.imagetitle)).getText().toString();
-                final String imagedescription =  ((EditText) findViewById(R.id.imagedescription)).getText().toString();
+
+                final EditText imagetitle_box = (EditText) findViewById(R.id.imagetitle);
+                final String imagetitle =  imagetitle_box.getText().toString();
+
+                final EditText imagedescription_box = (EditText) findViewById(R.id.imagedescription);
+                final String imagedescription =  imagedescription_box.getText().toString();
+
+
                 CheckBox locationcheckbox =  ((CheckBox) findViewById(R.id.checkbox_location_enabled));
                 final String location;
                 if(locationcheckbox.isChecked()){
@@ -95,6 +101,14 @@ public class ImageInsert extends AppCompatActivity {
                 }else {
                     location = "unknown";
                 }
+
+                if (imagetitle.replace(" ","").length() == 0){
+                    imagetitle_box.requestFocus();
+                    imagetitle_box.setError("Fill in image title");
+                }else if(imagedescription.replace(" ","").length() == 0){
+                    imagedescription_box.requestFocus();
+                    imagedescription_box.setError("Fill in image description");
+                }else {
 
                 // Code here executes on main thread after user presses button
 
@@ -145,6 +159,9 @@ public class ImageInsert extends AppCompatActivity {
                 Intent back = new Intent();
                 back.setClass(ImageInsert.this, MainActivity.class);
                 startActivity(back);
+
+                }
+
 
             }
 
