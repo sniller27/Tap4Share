@@ -37,8 +37,12 @@
         <activity
             android:name=".ImageInsert"
             android:screenOrientation="portrait" />
-        <activity android:name=".SingleImageInfo" />
-        <activity android:name=".ShakeActivity" />
+        <activity
+            android:name=".SingleImageInfo"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ShakeActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity"></activity>
     </application>
 
