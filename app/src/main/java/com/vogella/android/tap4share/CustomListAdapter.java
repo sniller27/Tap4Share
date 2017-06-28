@@ -38,10 +38,10 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
         View rowView=inflater.inflate(R.layout.list_item, null,true);
 
 
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.mobile);
+        TextView txtTitle = (TextView) rowView.findViewById(R.id.list_element_title);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.image);
 
-        txtTitle.setText(imgid.get(position).getDescription());
+        txtTitle.setText(imgid.get(position).getTitle());
 
             Picasso.with(getContext()).load(servconfig.getSingle_image_by_name() + imgid.get(position).getSource()).into(imageView);
 

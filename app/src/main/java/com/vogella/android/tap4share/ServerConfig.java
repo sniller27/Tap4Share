@@ -12,6 +12,7 @@ public class ServerConfig {
 
     //URL endpoints
     private String single_image_by_name = basicurl + "/api/imagefile?name=";
+    private String all_images = basicurl + "/api/newimages/";
 
     //GETTERS
     public String getServerip() {
@@ -28,5 +29,9 @@ public class ServerConfig {
 
     public String getConnectiontype() {
         return connectiontype;
+    }
+
+    public String getAll_images() {
+        return all_images;
     }
 }

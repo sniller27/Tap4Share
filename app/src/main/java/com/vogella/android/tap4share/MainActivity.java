@@ -65,7 +65,7 @@ private String TAG = MainActivity.class.getSimpleName();
 
     public MainActivity() {
         servconfig = new ServerConfig();
-        url = "http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/images/";
+        url = servconfig.getAll_images();
     }
 
     ArrayList<HashMap<String, String>> contactList;
@@ -404,15 +404,15 @@ System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + titl
                 DataOutputStream outputStream;
                 {
                     outputStream = new DataOutputStream(connection.getOutputStream());
-                    System.out.println("HERE IS OUTPUT STREAM: " + outputStream);
+
                     outputStream.writeBytes(twoHyphens + boundary + lineEnd);
                     String filename = args[0];
-                    System.out.println("HERE IS FILENAME: " + filename);
+
                     outputStream.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + filename + "\"" + lineEnd);
                     outputStream.writeBytes(lineEnd);
 
                     fileInputStream = new FileInputStream(filename);
-                    System.out.println("HERE IS FILEINPUT STREAM: " + fileInputStream);
+
                     bytesAvailable = fileInputStream.available();
                     bufferSize = Math.min(bytesAvailable, maxBufferSize);
 
@@ -430,7 +430,7 @@ System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + titl
                     outputStream.writeBytes(lineEnd);
                     outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
                 }
-                System.out.println("HERE IS OUTSTREAM STREAM AGAIN: " + outputStream);
+
                 int serverResponseCode = connection.getResponseCode();
                 String serverResponseMessage = connection.getResponseMessage();
                 Log.d("serverResponseCode", "" + serverResponseCode);
@@ -443,14 +443,14 @@ System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + titl
                 if (serverResponseCode == 200) {
 
                     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    System.out.println("HERE IS BUFFERED READER" + br);
+
                     sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
                         sb.append(line+"\n");
                     }
                     br.close();
-                    System.out.println("HERE IS SB" + sb.toString());
+
                     return sb.toString();
 
 //                    return "true";
@@ -470,9 +470,7 @@ System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + titl
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
             picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
 
-            System.out.println("HERE IS POST SB: " + sb.toString());
             String sb_intent = sb.substring(1,sb.length()-2);
-            System.out.println("SB CAHNGE: " + sb_intent);
 
             Intent i = new Intent(MainActivity.this, ImageInsert.class);
             i.putExtra("camera_image", bs.toByteArray());
