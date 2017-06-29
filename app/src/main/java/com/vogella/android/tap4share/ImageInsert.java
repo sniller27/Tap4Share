@@ -252,6 +252,8 @@ public class ImageInsert extends AppCompatActivity {
                 back.setClass(ImageInsert.this, MainActivity.class);
                 startActivity(back);
 
+                    //kill activity off the stack, so back button won't work
+                    finish();
                 }
 
 
