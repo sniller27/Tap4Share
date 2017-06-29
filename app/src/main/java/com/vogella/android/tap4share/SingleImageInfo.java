@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 
 public class SingleImageInfo extends AppCompatActivity {
 
+    TextView timestamp;
     TextView title;
     TextView description;
     TextView location;
@@ -25,6 +26,7 @@ public class SingleImageInfo extends AppCompatActivity {
         //constructor
         servconfig = new ServerConfig();
 
+        timestamp = (TextView) findViewById(R.id.singleimage_timestamp);
         title = (TextView) findViewById(R.id.singleimage_title);
         description = (TextView) findViewById(R.id.singleimage_description);
         location = (TextView) findViewById(R.id.singleimage_location);
@@ -32,9 +34,10 @@ public class SingleImageInfo extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
+        timestamp.setText(extras.getString("timestamp"));
         title.setText(extras.getString("title"));
         description.setText(extras.getString("description"));
-        location.setText(extras.getString("location"));
+        location.setText("Location: " + extras.getString("location"));
 
         //image
         Picasso.with(SingleImageInfo.this).load(servconfig.getSingle_image_by_name() + extras.getString("imagefilename")).into(image);

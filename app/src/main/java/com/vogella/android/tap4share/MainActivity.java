@@ -183,8 +183,9 @@ private String TAG = MainActivity.class.getSimpleName();
 //                picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
 //                intent.putExtra("description", bs.toByteArray());
 
-                intent.putExtra("description", item.getDescription());
+                intent.putExtra("timestamp", item.getTimestamp());
                 intent.putExtra("title", item.getTitle());
+                intent.putExtra("description", item.getDescription());
                 intent.putExtra("imagefilename", item.getSource());
                 intent.putExtra("location", item.getLocation());
                 startActivity(intent);
@@ -296,7 +297,7 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     JSONObject c = jsonObj.getJSONObject(i);
                     System.out.println("meh count" + c);
 
-                    String id = c.getString("imageid");
+                    String timestamp = c.getString("timestamp");
                     String imagefilename = c.getString("source");
                     String title = c.getString("title");
                     String description = c.getString("description");
@@ -306,17 +307,17 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     }catch (Exception e){
 
                     }
-System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + title + " and " + description);
+System.out.println("ATTIRBTES: " + timestamp + " and " + imagefilename + " and " + title + " and " + description);
                     // tmp hash map for single contact
                     HashMap<String, String> contact = new HashMap<>();
 
                     // adding each child node to HashMap key => value
-                    contact.put("id", id);
+                    contact.put("timestamp", timestamp);
                     contact.put("imagefilename", imagefilename);
                     contact.put("title", title);
                     contact.put("description", description);
                     contact.put("location", location);
-                    ImageData img = new ImageData(id, imagefilename, title, description, location);
+                    ImageData img = new ImageData(timestamp, imagefilename, title, description, location);
 
                     // adding contact to contact list
                     imagedatalist.add(img);

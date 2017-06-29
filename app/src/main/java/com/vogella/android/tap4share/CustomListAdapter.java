@@ -37,13 +37,17 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.list_item, null,true);
 
-
+        //title
         TextView txtTitle = (TextView) rowView.findViewById(R.id.list_element_title);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.image);
-
         txtTitle.setText(imgid.get(position).getTitle());
 
-            Picasso.with(getContext()).load(servconfig.getSingle_image_by_name() + imgid.get(position).getSource()).into(imageView);
+        //timestamp
+        TextView txtTimpestamp = (TextView) rowView.findViewById(R.id.list_element_timestamp);
+        txtTimpestamp.setText("Added: \n" + imgid.get(position).getTimestamp());
+
+        //image
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.image);
+        Picasso.with(getContext()).load(servconfig.getSingle_image_by_name() + imgid.get(position).getSource()).into(imageView);
 
         return rowView;
 
