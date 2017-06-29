@@ -142,10 +142,6 @@ private String TAG = MainActivity.class.getSimpleName();
         imagelistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                System.out.println("LISTENER1: " + parent.getItemAtPosition(position));
-//                System.out.println("POSITION: " + position);
-//                System.out.println("VIEW: " + view);
-//                System.out.println("ID: " + id);
 //
 //                Toast.makeText(getApplicationContext(), "Your image has been shared!", Toast.LENGTH_LONG).show();
 //
@@ -172,7 +168,6 @@ private String TAG = MainActivity.class.getSimpleName();
 //                });
 
                 ImageData item = (ImageData) adapter.getItem(position);
-//                System.out.println("HARSSS ITEM: " + item.getTimestamp());
 
                 Intent intent = new Intent(MainActivity.this,SingleImageInfo.class);
                 //based on item add info to intent
@@ -203,12 +198,6 @@ private String TAG = MainActivity.class.getSimpleName();
 //        //Get JSON (I think)
 //        new GetContacts().execute();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
         //API
         contactList = new ArrayList<>();
         imagedatalist = new ArrayList<>();
@@ -217,7 +206,12 @@ private String TAG = MainActivity.class.getSimpleName();
 
         //Get JSON (I think)
         new GetContacts().execute();
-        System.out.println("RESUME GOES!!!");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 
@@ -230,11 +224,9 @@ private String TAG = MainActivity.class.getSimpleName();
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("here is: " + resultCode);
         if (requestCode == CAMERA_REQUEST && resultCode != 0) {
             //System.exit(0);
             picture = (Bitmap) data.getExtras().get("data");
-            System.out.println("heeeej: " + picture);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             picture.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -252,9 +244,6 @@ private String TAG = MainActivity.class.getSimpleName();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            System.out.println("SE HER mappe: " + Environment.getExternalStorageDirectory());
-            System.out.println("SE HER fil: " + destination);
 
             new uploadFileToServerTask().execute(destination.getAbsolutePath());
 
@@ -295,7 +284,6 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                 for (int i = 0; i < jsonObj.length(); i++) {
 
                     JSONObject c = jsonObj.getJSONObject(i);
-                    System.out.println("meh count" + c);
 
                     String timestamp = c.getString("timestamp");
                     String imagefilename = c.getString("source");
@@ -307,7 +295,6 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                     }catch (Exception e){
 
                     }
-System.out.println("ATTIRBTES: " + timestamp + " and " + imagefilename + " and " + title + " and " + description);
                     // tmp hash map for single contact
                     HashMap<String, String> contact = new HashMap<>();
 
@@ -355,7 +342,6 @@ System.out.println("ATTIRBTES: " + timestamp + " and " + imagefilename + " and "
 
     @Override
     protected void onPostExecute(Void result) {
-        System.out.println("postexecute");
         super.onPostExecute(result);
         // Dismiss the progress dialog
         if (pDialog.isShowing())
@@ -378,6 +364,7 @@ System.out.println("ATTIRBTES: " + timestamp + " and " + imagefilename + " and "
 
         @Override
         protected String doInBackground(String... args) {
+
             try {
                 String lineEnd = "\r\n";
                 String twoHyphens = "--";
@@ -470,7 +457,6 @@ System.out.println("ATTIRBTES: " + timestamp + " and " + imagefilename + " and "
             byte[] byteArray = stream.toByteArray();
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
             picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
-
             String sb_intent = sb.substring(1,sb.length()-2);
 
             Intent i = new Intent(MainActivity.this, ImageInsert.class);

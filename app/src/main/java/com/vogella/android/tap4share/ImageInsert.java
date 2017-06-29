@@ -76,6 +76,7 @@ public class ImageInsert extends AppCompatActivity {
 
     String Address;
     String location;
+    String currentlocation = "unknown";
 
     private final static String KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
     private final static String KEY_LOCATION = "location";
@@ -136,7 +137,6 @@ public class ImageInsert extends AppCompatActivity {
                 //method 1 (for bitarray)
                 byte[] byteArray = getIntent().getByteArrayExtra("camera_image");
 
-                System.out.println("IMAGENAME: " + extras.getString("camera_image_name"));
                 imagename = extras.getString("camera_image_name");
 
                 if (byteArray == null){
@@ -148,7 +148,6 @@ public class ImageInsert extends AppCompatActivity {
                     System.out.println("bitmap iss null!");
                 }
 
-                System.out.println(imageView);
                 imageView.setImageBitmap(bmp);
             }
         } else {
@@ -163,11 +162,11 @@ public class ImageInsert extends AppCompatActivity {
                 if (isChecked) {
                     startLocationUpdates();
                     stopLocationUpdates();
-                    location = Address;
+//                    location = Address;
                 }
                 else
                 {
-                    location = "unknown";
+                    currentlocation = "unknown";
                 }
             }
         });
@@ -184,7 +183,6 @@ public class ImageInsert extends AppCompatActivity {
 
                 final EditText imagedescription_box = (EditText) findViewById(R.id.imagedescription);
                 final String imagedescription =  imagedescription_box.getText().toString();
-
 
 
 //                if(locationcheckbox.isChecked()){
@@ -236,7 +234,7 @@ public class ImageInsert extends AppCompatActivity {
                         params2.put("source", imagename);
                         params2.put("title", imagetitle);
                         params2.put("description", imagedescription);
-                        params2.put("location", location);
+                        params2.put("location", currentlocation);
 
                         return new JSONObject(params2).toString().getBytes();
                     }
@@ -437,8 +435,10 @@ public class ImageInsert extends AppCompatActivity {
                 //解析得formatted_address值
                 String address = jsonObj.getString("formatted_address");
 
-                Toast.makeText(getApplicationContext(), "Location: " + address, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Location: " + address, Toast.LENGTH_LONG).show();
                 Address = address;
+                currentlocation = address;
+                System.out.println("CUR LOCATION get address: " + currentlocation);
             }
         } catch (Exception e) {
             e.printStackTrace();
