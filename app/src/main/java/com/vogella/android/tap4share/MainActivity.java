@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -110,9 +111,24 @@ private String TAG = MainActivity.class.getSimpleName();
 
         bindView();
 
+
         /**
          * LISTENERS
          * **/
+
+        //refresh view
+        final SwipeRefreshLayout mswipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+
+        mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                //write your code here.
+                //
+                mswipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
 
