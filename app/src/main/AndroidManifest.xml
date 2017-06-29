@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!-- for camera -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -44,6 +47,10 @@
             android:name=".ShakeActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCO1kABTfnxOFQub5FPE6A1fsxBb0c8tIw" />
     </application>
 
 </manifest>
