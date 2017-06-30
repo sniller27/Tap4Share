@@ -390,7 +390,8 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
                 @SuppressWarnings("PointlessArithmeticExpression")
                 int maxBufferSize = 1 * 1024 * 1024;
 
-                URL url = new URL("http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/uploadfile");
+                servconfig = new ServerConfig();
+                URL url = new URL(servconfig.getUpload_file());
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 // Allow Inputs &amp; Outputs.

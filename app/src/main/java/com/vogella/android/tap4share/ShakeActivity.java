@@ -26,6 +26,7 @@ public class ShakeActivity extends AppCompatActivity {
     private JSONObject jsonObj;
     private ImageData imageData;
     private Boolean shakebool = true;
+    private ServerConfig serverconf;
 
     private SensorEventListener listener = new SensorEventListener() {
         //当手机的加速度发生变化时调用 when acceleration changes then use this method
@@ -107,9 +108,10 @@ public class ShakeActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
 
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall("http://134.103.176.119:8080/api/randomimagedata");
+            serverconf = new ServerConfig();
 
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(serverconf.getRandom_image_data());
 
             if (jsonStr != null) {
                 try {

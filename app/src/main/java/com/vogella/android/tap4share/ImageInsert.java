@@ -99,7 +99,6 @@ public class ImageInsert extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_insert);
         imageView =(ImageView) findViewById(R.id.photo);
-        servconfig = new ServerConfig();
 
 
         mRequestingLocationUpdates = false;
@@ -208,7 +207,8 @@ public class ImageInsert extends AppCompatActivity {
 
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://"+servconfig.getServerip()+":"+servconfig.getServerport()+"/api/image";
+                    servconfig = new ServerConfig();
+                    String url = servconfig.getSingle_image_information_by_title();
 
 
                 //SOLUTION 2 STRINGREQUEST
