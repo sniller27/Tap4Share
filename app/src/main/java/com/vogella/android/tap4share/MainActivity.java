@@ -66,7 +66,7 @@ private String TAG = MainActivity.class.getSimpleName();
 
     public MainActivity() {
         servconfig = new ServerConfig();
-        url = servconfig.getAll_images();
+        url = servconfig.getNewimages();
     }
 
     ArrayList<HashMap<String, String>> contactList;

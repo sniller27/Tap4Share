@@ -11,8 +11,8 @@ public class ServerConfig {
     private String basicurl = connectiontype + serverip + ":" + serverport;
 
     //URL endpoints
-    private String single_image_by_name = basicurl + "/api/imagefile?name=";
-    private String all_images = basicurl + "/api/newimages/";
+    private String single_image_by_name = basicurl + "/api/imagefile/";
+    private String newimages = basicurl + "/api/newimages/5";
     private String single_image_information_by_title = basicurl + "/api/image/";
     private String upload_file = basicurl + "/api/uploadfile/";
     private String random_image_data = basicurl + "/api/randomimagedata/";
@@ -34,8 +34,8 @@ public class ServerConfig {
         return connectiontype;
     }
 
-    public String getAll_images() {
-        return all_images;
+    public String getNewimages() {
+        return newimages;
     }
 
     public String getSingle_image_information_by_title() {
