@@ -125,6 +125,11 @@ private String TAG = MainActivity.class.getSimpleName();
 
                 //write your code here.
                 //
+                System.out.println("STRO refreshing");
+                adapter.clear();
+
+                adapter.notifyDataSetChanged();
+                new GetContacts().execute();
                 mswipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -223,6 +228,8 @@ private String TAG = MainActivity.class.getSimpleName();
         //Get JSON (I think)
         new GetContacts().execute();
 
+        System.out.println("this is create main");
+
     }
 
     @Override
@@ -280,22 +287,26 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
         pDialog.show();
+        System.out.println("STRO onpre");
 
     }
 
     @Override
     protected Void doInBackground(Void... arg0) {
+
         HttpHandler sh = new HttpHandler();
 
         // Making a request to url and getting response
         String jsonStr = sh.makeServiceCall(url);
 
         Log.e(TAG, "Response from url: " + jsonStr);
+        System.out.println("STRO do in background");
 
         if (jsonStr != null) {
+            System.out.println("STRO json is found!");
             try {
                 JSONArray jsonObj = new JSONArray(jsonStr);
-
+                System.out.println("STRO json str" + jsonObj);
 //                    // looping through All Contacts
                 for (int i = 0; i < jsonObj.length(); i++) {
 
@@ -365,10 +376,11 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
         /**
          * Updating parsed JSON data into ListView
          * */
-
         adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
 
         lv.setAdapter(adapter);
+
+        System.out.println("STRO postexe");
 
     }
 

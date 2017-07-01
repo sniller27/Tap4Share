@@ -100,7 +100,6 @@ public class ImageInsert extends AppCompatActivity {
         setContentView(R.layout.activity_image_insert);
         imageView =(ImageView) findViewById(R.id.photo);
 
-
         mRequestingLocationUpdates = false;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mSettingsClient = LocationServices.getSettingsClient(this);
@@ -184,15 +183,6 @@ public class ImageInsert extends AppCompatActivity {
                 final String imagedescription =  imagedescription_box.getText().toString();
 
 
-//                if(locationcheckbox.isChecked()){
-//                    location = "Have location";
-//                }else {
-//                    location = "unknown";
-//                }
-
-
-
-
                 if (imagetitle.replace(" ","").length() == 0){
                     imagetitle_box.requestFocus();
                     imagetitle_box.setError("Fill in image title");
@@ -250,6 +240,7 @@ public class ImageInsert extends AppCompatActivity {
 
                 Intent back = new Intent();
                 back.setClass(ImageInsert.this, MainActivity.class);
+                back.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(back);
 
                     //kill activity off the stack, so back button won't work
@@ -261,6 +252,7 @@ public class ImageInsert extends AppCompatActivity {
 
 
         });
+
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
