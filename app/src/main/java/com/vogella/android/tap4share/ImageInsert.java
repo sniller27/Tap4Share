@@ -417,6 +417,17 @@ public class ImageInsert extends AppCompatActivity {
         String coordinate = location.getLatitude() + "," + location.getLongitude();
         String key = "AIzaSyA0Au4sLmmtDyl1Ge5sfpiEUf_CHKRrL6M";
         String url = String.format(uriAPI, coordinate, key);
+System.out.println("COORDINATES: " + coordinate);
+
+
+        boolean jonascrib = distFrom(48.483693, 9.186810, location.getLatitude(), location.getLongitude(), 30);
+        boolean buildingnine = distFrom(48.482922, 9.18792, location.getLatitude(), location.getLongitude(), 50);
+        boolean mensa = distFrom(48.482217,9.188579, location.getLatitude(), location.getLongitude(), 43);
+        boolean library = distFrom(48.481915,9.186916, location.getLatitude(), location.getLongitude(), 34);
+        boolean buildingtwenty = distFrom(48.481033,9.186095, location.getLatitude(), location.getLongitude(), 50);
+
+
+
 
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -439,12 +450,50 @@ public class ImageInsert extends AppCompatActivity {
 
 //                Toast.makeText(getApplicationContext(), "Location: " + address, Toast.LENGTH_LONG).show();
                 Address = address;
-                currentlocation = address;
+
+                if (jonascrib){
+                    Toast.makeText(getApplicationContext(), "Location: jonas lolz place", Toast.LENGTH_LONG).show();
+                    currentlocation = "Jonas house";
+                }else if(buildingnine) {
+                    Toast.makeText(getApplicationContext(), "Location: building 9", Toast.LENGTH_LONG).show();
+                    currentlocation = "Building 9";
+                }else if(mensa) {
+                    Toast.makeText(getApplicationContext(), "Location: Mensa", Toast.LENGTH_LONG).show();
+                    currentlocation = "Mensa";
+                }else if(library) {
+                    Toast.makeText(getApplicationContext(), "Location: Library", Toast.LENGTH_LONG).show();
+                    currentlocation = "The library";
+                }else if(buildingtwenty) {
+                    Toast.makeText(getApplicationContext(), "Location: Building 20", Toast.LENGTH_LONG).show();
+                    currentlocation = "Building 20";
+                }else {
+                    Toast.makeText(getApplicationContext(), address, Toast.LENGTH_LONG).show();
+                    currentlocation = address;
+                }
+
                 System.out.println("CUR LOCATION get address: " + currentlocation);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static boolean distFrom(double lat1, double lng1, double lat2, double lng2, double radius) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double dist = (double) (earthRadius * c);
+
+        if(dist < radius){
+            return true;
+        }
+
+        return false;
     }
 
 
