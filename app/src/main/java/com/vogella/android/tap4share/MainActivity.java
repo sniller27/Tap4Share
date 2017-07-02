@@ -51,17 +51,11 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-
-//    API
-///???
-private String TAG = MainActivity.class.getSimpleName();
-
+    private TextView tabHome;
     private ProgressDialog pDialog;
     private ListView lv;
     ServerConfig servconfig;
     CustomListAdapter adapter;
-
-    // URL to get contacts JSON
     private static String url;
 
     public MainActivity() {
@@ -72,19 +66,9 @@ private String TAG = MainActivity.class.getSimpleName();
     ArrayList<HashMap<String, String>> contactList;
     ArrayList<ImageData> imagedatalist;
 
-
-
-    //other
-    private TextView tabHome;
-    private TextView tabTap;
-    ImageView image;
-    private ImageView imageView;
-
-
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int CAMERA_REQUEST = 1888;
     Bitmap picture;
-
 
 
     @Override
@@ -93,8 +77,10 @@ private String TAG = MainActivity.class.getSimpleName();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        //portrait orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //permissions
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
@@ -105,37 +91,40 @@ private String TAG = MainActivity.class.getSimpleName();
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
                     123);
 
-        } else {
-
         }
 
-        bindView();
+        //assign UI elements
+        tabHome = (TextView) this.findViewById(R.id.text_home);
+        final SwipeRefreshLayout mswipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
+        TextView shakeButton = (TextView) this.findViewById(R.id.text_shake);
+        ListView imagelistview = (ListView) this.findViewById(R.id.list);
+        lv = (ListView) findViewById(R.id.list);
 
+        //assign lists
+        contactList = new ArrayList<>();
+        imagedatalist = new ArrayList<>();
+
+        //set active tab
+        tabHome.setSelected(true);
 
         /**
          * LISTENERS
          * **/
 
         //refresh view
-        final SwipeRefreshLayout mswipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
-
         mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
                 //write your code here.
                 //
-                System.out.println("STRO refreshing");
                 adapter.clear();
-
                 adapter.notifyDataSetChanged();
                 new GetContacts().execute();
                 mswipeRefreshLayout.setRefreshing(false);
             }
         });
-
-
-        TextView photoButton = (TextView) this.findViewById(R.id.text_tap);
 
         //camera button
         photoButton.setOnClickListener(new View.OnClickListener(){
@@ -147,8 +136,6 @@ private String TAG = MainActivity.class.getSimpleName();
         });
 
         //shake button
-        TextView shakeButton = (TextView) this.findViewById(R.id.text_shake);
-
         shakeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -158,46 +145,13 @@ private String TAG = MainActivity.class.getSimpleName();
         });
 
         //listview click
-        ListView imagelistview = (ListView) this.findViewById(R.id.list);
-
         imagelistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Toast.makeText(getApplicationContext(), "Your image has been shared!", Toast.LENGTH_LONG).show();
-//
-//
-//                Intent intent = new Intent(MainActivity.this,SingleImageInfo.class);
-//                //based on item add info to intent
-//                startActivity(intent);
-
-
-
-
-////                ARRAYADAPTER ADD
-//                ImageData ko = new ImageData("15", "adsssd", "asss", "ddd");
-//                imagedatalist.add(ko);
-//
-////                final ArrayAdapter adapter1 = ((ArrayAdapter)getListAdapter());
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        mInfo.setText(str);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                });
 
                 ImageData item = (ImageData) adapter.getItem(position);
 
                 Intent intent = new Intent(MainActivity.this,SingleImageInfo.class);
-                //based on item add info to intent
-//                intent.putExtra("id", item.getTimestamp());
-
-//              BITMAP TO BYTEARRAY
-//                ByteArrayOutputStream bs = new ByteArrayOutputStream();
-//                picture.compress(Bitmap.CompressFormat.PNG, 50, bs);
-//                intent.putExtra("description", bs.toByteArray());
 
                 intent.putExtra("timestamp", item.getTimestamp());
                 intent.putExtra("title", item.getTitle());
@@ -209,46 +163,18 @@ private String TAG = MainActivity.class.getSimpleName();
             }
         });
 
-
-        //API
-//        contactList = new ArrayList<>();
-//        imagedatalist = new ArrayList<>();
-//
-//        lv = (ListView) findViewById(R.id.list);
-//
-//        //Get JSON (I think)
-//        new GetContacts().execute();
-
-        //API
-        contactList = new ArrayList<>();
-        imagedatalist = new ArrayList<>();
-
-        lv = (ListView) findViewById(R.id.list);
-
-        //Get JSON (I think)
+        //Get JSON og display listview
         new GetContacts().execute();
-
-        System.out.println("this is create main");
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
-
-    //UI initialize
-    private void bindView() {
-        tabHome = (TextView) this.findViewById(R.id.text_home);
-        tabTap = (TextView) this.findViewById(R.id.text_tap);
-        tabHome.setSelected(true);
-    }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode != 0) {
-            //System.exit(0);
+
             picture = (Bitmap) data.getExtras().get("data");
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -256,7 +182,6 @@ private String TAG = MainActivity.class.getSimpleName();
             byte[] byteArray = stream.toByteArray();
 
             File destination = new File(Environment.getExternalStorageDirectory(),"temp.jpg");
-
 
             FileOutputStream fo;
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -274,117 +199,106 @@ private String TAG = MainActivity.class.getSimpleName();
     }
 
 
+    //    API CLASS
+    private class GetContacts extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
 
-//    API CLASS
-private class GetContacts extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... arg0) {
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        // Showing progress dialog
-        pDialog = new ProgressDialog(MainActivity.this);
-        pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(false);
-        pDialog.show();
-        System.out.println("STRO onpre");
+            HttpHandler sh = new HttpHandler();
 
-    }
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(url);
 
-    @Override
-    protected Void doInBackground(Void... arg0) {
+            if (jsonStr != null) {
+                try {
+                    JSONArray jsonObj = new JSONArray(jsonStr);
+    //                    // looping through All Contacts
+                    for (int i = 0; i < jsonObj.length(); i++) {
 
-        HttpHandler sh = new HttpHandler();
+                        JSONObject c = jsonObj.getJSONObject(i);
 
-        // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(url);
+                        String timestamp = c.getString("timestamp");
+                        String imagefilename = c.getString("source");
+                        String title = c.getString("title");
+                        String description = c.getString("description");
+                        String location = "just unknown";
+                        try {
+                            location = c.getString("location");
+                        }catch (Exception e){
 
-        Log.e(TAG, "Response from url: " + jsonStr);
-        System.out.println("STRO do in background");
+                        }
+                        // tmp hash map for single contact
+                        HashMap<String, String> contact = new HashMap<>();
 
-        if (jsonStr != null) {
-            System.out.println("STRO json is found!");
-            try {
-                JSONArray jsonObj = new JSONArray(jsonStr);
-                System.out.println("STRO json str" + jsonObj);
-//                    // looping through All Contacts
-                for (int i = 0; i < jsonObj.length(); i++) {
+                        // adding each child node to HashMap key => value
+                        contact.put("timestamp", timestamp);
+                        contact.put("imagefilename", imagefilename);
+                        contact.put("title", title);
+                        contact.put("description", description);
+                        contact.put("location", location);
+                        ImageData img = new ImageData(timestamp, imagefilename, title, description, location);
 
-                    JSONObject c = jsonObj.getJSONObject(i);
-
-                    String timestamp = c.getString("timestamp");
-                    String imagefilename = c.getString("source");
-                    String title = c.getString("title");
-                    String description = c.getString("description");
-                    String location = "just unknown";
-                    try {
-                        location = c.getString("location");
-                    }catch (Exception e){
-
+                        // adding contact to contact list
+                        imagedatalist.add(img);
+                        contactList.add(contact);
                     }
-                    // tmp hash map for single contact
-                    HashMap<String, String> contact = new HashMap<>();
+                } catch (final JSONException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
 
-                    // adding each child node to HashMap key => value
-                    contact.put("timestamp", timestamp);
-                    contact.put("imagefilename", imagefilename);
-                    contact.put("title", title);
-                    contact.put("description", description);
-                    contact.put("location", location);
-                    ImageData img = new ImageData(timestamp, imagefilename, title, description, location);
-
-                    // adding contact to contact list
-                    imagedatalist.add(img);
-                    contactList.add(contact);
                 }
-            } catch (final JSONException e) {
-                Log.e(TAG, "Json parsing error: " + e.getMessage());
+            } else {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Json parsing error: " + e.getMessage(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
                 });
 
             }
-        } else {
-            Log.e(TAG, "Couldn't get json from server.");
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            "Couldn't get json from server. Check LogCat for possible errors!",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-            });
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            /**
+             * Updating parsed JSON data into ListView
+             * */
+            adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
+
+            lv.setAdapter(adapter);
+
+            System.out.println("STRO postexe");
 
         }
 
-        return null;
     }
-
-    @Override
-    protected void onPostExecute(Void result) {
-        super.onPostExecute(result);
-        // Dismiss the progress dialog
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-        /**
-         * Updating parsed JSON data into ListView
-         * */
-        adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
-
-        lv.setAdapter(adapter);
-
-        System.out.println("STRO postexe");
-
-    }
-
-}
 
     //INSERT IMAGE NR 3 TRY
     private class uploadFileToServerTask extends AsyncTask<String, String, Object> {
@@ -450,8 +364,6 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
 
                 int serverResponseCode = connection.getResponseCode();
                 String serverResponseMessage = connection.getResponseMessage();
-                Log.d("serverResponseCode", "" + serverResponseCode);
-                Log.d("serverResponseMessage", "" + serverResponseMessage);
 
                 fileInputStream.close();
                 outputStream.flush();

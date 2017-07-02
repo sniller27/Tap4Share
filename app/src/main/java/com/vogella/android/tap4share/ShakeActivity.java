@@ -27,6 +27,7 @@ public class ShakeActivity extends AppCompatActivity {
     private ImageData imageData;
     private Boolean shakebool = true;
     private ServerConfig serverconf;
+    private SensorManager sensorManager;
 
     private SensorEventListener listener = new SensorEventListener() {
         //当手机的加速度发生变化时调用 when acceleration changes then use this method
@@ -50,7 +51,6 @@ public class ShakeActivity extends AppCompatActivity {
 
         }
     };
-    private SensorManager sensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +96,6 @@ public class ShakeActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Showing progress dialog
-//            pDialog = new ProgressDialog(MainActivity.this);
-//            pDialog.setMessage("Please wait...");
-//            pDialog.setCancelable(false);
-//            pDialog.show();
-
         }
 
         @Override
@@ -115,7 +109,6 @@ public class ShakeActivity extends AppCompatActivity {
 
             if (jsonStr != null) {
                 try {
-System.out.println("DINE RUNS!");
                     jsonObj = new JSONObject(jsonStr);
 
                     String imageid = jsonObj.getString("imageid");
@@ -130,33 +123,6 @@ System.out.println("DINE RUNS!");
                     }
 
                     imageData = new ImageData(imageid, source, title, description, location);
-
-//                    JSONArray jsonObj = new JSONArray(jsonStr);
-
-//                    // looping through All Contacts
-//                    for (int i = 0; i < jsonObj.length(); i++) {
-//
-//                        JSONObject c = jsonObj.getJSONObject(i);
-//                        System.out.println("meh count" + c);
-//
-//                        String id = c.getString("imageid");
-//                        String imagefilename = c.getString("source");
-//                        String title = c.getString("title");
-//                        String description = c.getString("description");
-//                        System.out.println("ATTIRBTES: " + id + " and " + imagefilename + " and " + title + " and " + description);
-//                        // tmp hash map for single contact
-//                        HashMap<String, String> contact = new HashMap<>();
-//
-//                        // adding each child node to HashMap key => value
-//                        contact.put("id", id);
-//                        contact.put("imagefilename", imagefilename);
-//                        contact.put("title", title);
-//                        contact.put("description", description);
-//                        ImageData img = new ImageData(id, imagefilename, title, description);
-//
-//                    }
-
-
 
                 } catch (final JSONException e) {
                     runOnUiThread(new Runnable() {
@@ -189,15 +155,12 @@ System.out.println("DINE RUNS!");
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            // Dismiss the progress dialog
-//            if (pDialog.isShowing())
-//                pDialog.dismiss();
+
             /**
              * Updating parsed JSON data into ListView
              * */
             System.out.println("ONPOSTEXECUTE MOTEDE");
             Intent intent = new Intent(ShakeActivity.this,SingleImageInfo.class);
-//                intent.setClass(ShakeActivity.this,MainActivity.class);
             intent.putExtra("description", imageData.getDescription());
             intent.putExtra("title", imageData.getTitle());
             intent.putExtra("imagefilename", imageData.getSource());

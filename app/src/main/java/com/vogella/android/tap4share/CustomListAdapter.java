@@ -1,7 +1,6 @@
 package com.vogella.android.tap4share;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -24,6 +21,7 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
     private final Activity context;
     private ArrayList<ImageData> imgid;
     ServerConfig servconfig;
+
     public CustomListAdapter(Activity context, int itemname, ArrayList<ImageData> imgid) {
         super(context, itemname, imgid);
         // TODO Auto-generated constructor stub

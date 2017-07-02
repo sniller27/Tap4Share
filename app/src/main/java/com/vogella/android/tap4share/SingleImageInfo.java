@@ -23,17 +23,20 @@ public class SingleImageInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_image_info);
 
-        //constructor
+        //assign server configurations
         servconfig = new ServerConfig();
 
+        //assign UI-elements
         timestamp = (TextView) findViewById(R.id.singleimage_timestamp);
         title = (TextView) findViewById(R.id.singleimage_title);
         description = (TextView) findViewById(R.id.singleimage_description);
         location = (TextView) findViewById(R.id.singleimage_location);
         image = (ImageView) findViewById(R.id.singleimage_image);
 
+        //get data passed from intent
         Bundle extras = getIntent().getExtras();
 
+        //set UI-elements
         timestamp.setText(extras.getString("timestamp"));
         title.setText(extras.getString("title"));
         description.setText(extras.getString("description"));
