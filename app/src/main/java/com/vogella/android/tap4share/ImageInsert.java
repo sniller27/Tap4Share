@@ -7,23 +7,18 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Looper;
-import android.os.RecoverySystem;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -53,10 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -64,7 +55,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ImageInsert extends AppCompatActivity {
 
@@ -409,17 +399,13 @@ public class ImageInsert extends AppCompatActivity {
         String coordinate = location.getLatitude() + "," + location.getLongitude();
         String key = "AIzaSyA0Au4sLmmtDyl1Ge5sfpiEUf_CHKRrL6M";
         String url = String.format(uriAPI, coordinate, key);
-System.out.println("COORDINATES: " + coordinate);
 
-
+        //some custom campus building coordinates
         boolean jonascrib = distFrom(48.483693, 9.186810, location.getLatitude(), location.getLongitude(), 30);
         boolean buildingnine = distFrom(48.482922, 9.18792, location.getLatitude(), location.getLongitude(), 50);
         boolean mensa = distFrom(48.482217,9.188579, location.getLatitude(), location.getLongitude(), 43);
         boolean library = distFrom(48.481915,9.186916, location.getLatitude(), location.getLongitude(), 34);
         boolean buildingtwenty = distFrom(48.481033,9.186095, location.getLatitude(), location.getLongitude(), 50);
-
-
-
 
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -444,33 +430,32 @@ System.out.println("COORDINATES: " + coordinate);
                 Address = address;
 
                 if (jonascrib){
-                    Toast.makeText(getApplicationContext(), "Location: jonas lolz place", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Location: jonas lolz place", Toast.LENGTH_LONG).show();
                     currentlocation = "Jonas house";
                 }else if(buildingnine) {
-                    Toast.makeText(getApplicationContext(), "Location: building 9", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Location: building 9", Toast.LENGTH_LONG).show();
                     currentlocation = "Building 9";
                 }else if(mensa) {
-                    Toast.makeText(getApplicationContext(), "Location: Mensa", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Location: Mensa", Toast.LENGTH_LONG).show();
                     currentlocation = "Mensa";
                 }else if(library) {
-                    Toast.makeText(getApplicationContext(), "Location: Library", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Location: Library", Toast.LENGTH_LONG).show();
                     currentlocation = "The library";
                 }else if(buildingtwenty) {
-                    Toast.makeText(getApplicationContext(), "Location: Building 20", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Location: Building 20", Toast.LENGTH_LONG).show();
                     currentlocation = "Building 20";
                 }else {
-                    Toast.makeText(getApplicationContext(), address, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), address, Toast.LENGTH_LONG).show();
                     currentlocation = address;
                 }
 
-                System.out.println("CUR LOCATION get address: " + currentlocation);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
+    //distance between coordinates calculator method
     public static boolean distFrom(double lat1, double lng1, double lat2, double lng2, double radius) {
         double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(lat2-lat1);
