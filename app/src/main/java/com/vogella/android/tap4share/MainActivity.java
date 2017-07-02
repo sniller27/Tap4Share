@@ -45,22 +45,22 @@ public class MainActivity extends AppCompatActivity {
     private TextView tabHome;
     private ProgressDialog pDialog;
     private ListView lv;
-    ServerConfig servconfig;
-    CustomListAdapter adapter;
+    private ServerConfig servconfig;
+    private CustomListAdapter adapter;
     private static String url;
+
+    //lists
+    private ArrayList<HashMap<String, String>> contactList;
+    private ArrayList<ImageData> imagedatalist;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int CAMERA_REQUEST = 1888;
+    private Bitmap picture;
 
     public MainActivity() {
         servconfig = new ServerConfig();
         url = servconfig.getNewimages();
     }
-
-    ArrayList<HashMap<String, String>> contactList;
-    ArrayList<ImageData> imagedatalist;
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int CAMERA_REQUEST = 1888;
-    Bitmap picture;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

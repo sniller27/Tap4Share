@@ -9,12 +9,12 @@ import com.squareup.picasso.Picasso;
 
 public class SingleImageInfo extends AppCompatActivity {
 
-    TextView timestamp;
-    TextView title;
-    TextView description;
-    TextView location;
-    ImageView image;
-    ServerConfig servconfig;
+    private TextView timestamp;
+    private TextView title;
+    private TextView description;
+    private TextView location;
+    private ImageView image;
+    private ServerConfig servconfig;
 
 
     @Override

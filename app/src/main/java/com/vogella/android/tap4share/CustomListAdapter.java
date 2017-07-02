@@ -20,7 +20,7 @@ public class CustomListAdapter extends ArrayAdapter<ImageData> {
 
     private final Activity context;
     private ArrayList<ImageData> imgid;
-    ServerConfig servconfig;
+    private ServerConfig servconfig;
 
     public CustomListAdapter(Activity context, int itemname, ArrayList<ImageData> imgid) {
         super(context, itemname, imgid);

@@ -58,15 +58,15 @@ import java.util.HashMap;
 
 public class ImageInsert extends AppCompatActivity {
 
-    String newString;
-    String imagename;
-    ImageView imageView;
-    Bitmap bmp;
-    ServerConfig servconfig;
+    private String newString;
+    private String imagename;
+    private ImageView imageView;
+    private Bitmap bmp;
+    private ServerConfig servconfig;
 
-    String Address;
-    String location;
-    String currentlocation = "unknown";
+    private String Address;
+    private String location;
+    private String currentlocation = "unknown";
 
     private final static String KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
     private final static String KEY_LOCATION = "location";
@@ -82,7 +82,6 @@ public class ImageInsert extends AppCompatActivity {
     private LocationSettingsRequest mLocationSettingsRequest;
     private FusedLocationProviderClient mFusedLocationClient;
     private boolean mRequestingLocationUpdates;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
