@@ -42,9 +42,12 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+    //declaration of UI-elements
     private TextView tabHome;
     private ProgressDialog pDialog;
     private ListView lv;
+
+    //declaration of custom instances
     private ServerConfig servconfig;
     private CustomListAdapter adapter;
     private static String url;
@@ -53,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> contactList;
     private ArrayList<ImageData> imagedatalist;
 
+    //final variables
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int CAMERA_REQUEST = 1888;
+
     private Bitmap picture;
 
     public MainActivity() {
@@ -107,9 +112,6 @@ public class MainActivity extends AppCompatActivity {
         mswipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
-                //write your code here.
-                //
                 adapter.clear();
                 adapter.notifyDataSetChanged();
                 new GetContacts().execute();
@@ -139,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         imagelistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 ImageData item = (ImageData) adapter.getItem(position);
 
                 Intent intent = new Intent(MainActivity.this,SingleImageInfo.class);
@@ -150,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("imagefilename", item.getSource());
                 intent.putExtra("location", item.getLocation());
                 startActivity(intent);
-
             }
         });
 
@@ -189,8 +189,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    //    API CLASS
+    //    private class to get JSON
     private class GetContacts extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -266,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
-
             }
 
             return null;
@@ -284,11 +282,7 @@ public class MainActivity extends AppCompatActivity {
             adapter=new CustomListAdapter(MainActivity.this, R.layout.list_item, imagedatalist);
 
             lv.setAdapter(adapter);
-
-            System.out.println("STRO postexe");
-
         }
-
     }
 
     //INSERT IMAGE NR 3 TRY
@@ -404,7 +398,6 @@ public class MainActivity extends AppCompatActivity {
     {
         switch (requestCode) {
             case 123: {
-
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED)     {

@@ -34,7 +34,6 @@ public class ShakeActivity extends AppCompatActivity {
             //感受到摇晃后的操作(可以通过更改数值来调整灵敏度)  What will happen after the shake (We can change the number to modify the sensitive of sensor)
             if ((valuesX > 17 || valuesY > 17 || valuesZ > 17) && shakebool) {
                 shakebool = false;
-                System.out.println("SHAKE!");
                 new GetContacts().execute();
             }
         }
@@ -152,7 +151,6 @@ public class ShakeActivity extends AppCompatActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
-            System.out.println("ONPOSTEXECUTE MOTEDE");
             Intent intent = new Intent(ShakeActivity.this,SingleImageInfo.class);
             intent.putExtra("description", imageData.getDescription());
             intent.putExtra("title", imageData.getTitle());

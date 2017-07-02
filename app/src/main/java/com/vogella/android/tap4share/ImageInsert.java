@@ -114,8 +114,6 @@ public class ImageInsert extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.INTERNET,android.Manifest.permission.INTERNET}, 123);
         }
 
-
-
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
@@ -127,12 +125,12 @@ public class ImageInsert extends AppCompatActivity {
                 imagename = extras.getString("camera_image_name");
 
                 if (byteArray == null){
-                    System.out.println("it iss null!");
+                    System.out.println("it is null!");
                 }
                 bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 //                System.out.println(bmp);
                 if (bmp == null){
-                    System.out.println("bitmap iss null!");
+                    System.out.println("bitmap is null!");
                 }
 
                 imageView.setImageBitmap(bmp);
@@ -235,13 +233,8 @@ public class ImageInsert extends AppCompatActivity {
                     //kill activity off the stack, so back button won't work
                     finish();
                 }
-
-
             }
-
-
         });
-
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
@@ -306,7 +299,6 @@ public class ImageInsert extends AppCompatActivity {
         }
 
         // Begin by checking if the device has the necessary location settings.
-
         mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
                 .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
                     @Override
@@ -400,7 +392,7 @@ public class ImageInsert extends AppCompatActivity {
         String url = String.format(uriAPI, coordinate, key);
 
         //some custom campus building coordinates
-        boolean jonascrib = distFrom(48.483693, 9.186810, location.getLatitude(), location.getLongitude(), 30);
+        boolean jonashome = distFrom(48.483693, 9.186810, location.getLatitude(), location.getLongitude(), 30);
         boolean buildingnine = distFrom(48.482922, 9.18792, location.getLatitude(), location.getLongitude(), 50);
         boolean mensa = distFrom(48.482217,9.188579, location.getLatitude(), location.getLongitude(), 43);
         boolean library = distFrom(48.481915,9.186916, location.getLatitude(), location.getLongitude(), 34);
@@ -428,7 +420,7 @@ public class ImageInsert extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), "Location: " + address, Toast.LENGTH_LONG).show();
                 Address = address;
 
-                if (jonascrib){
+                if (jonashome){
 //                    Toast.makeText(getApplicationContext(), "Location: jonas lolz place", Toast.LENGTH_LONG).show();
                     currentlocation = "Jonas house";
                 }else if(buildingnine) {
@@ -471,6 +463,4 @@ public class ImageInsert extends AppCompatActivity {
 
         return false;
     }
-
-
 }

@@ -15,8 +15,7 @@ public class SingleImageInfo extends AppCompatActivity {
     private TextView location;
     private ImageView image;
     private ServerConfig servconfig;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
