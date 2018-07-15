@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.vogella.android.tap4share.ImageInsert">
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
+
+            <!-- everything you already have -->
+            <RelativeLayout
+                android:layout_width="368dp"
+                android:layout_height="500dp"
+                tools:layout_editor_absoluteY="8dp"
+                tools:layout_editor_absoluteX="8dp">
+
+                <TextView
+                    android:id="@+id/insertartistheader"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="22dp"
+                    android:text="Select your image information"/>
+
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="550px"
+                    android:layout_height="550px"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/tab_menu_tap"
+                    android:layout_below="@+id/insertartistheader"
+                    android:layout_centerInParent="true"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox_location_enabled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share location"
+                    android:layout_below="@+id/photo"/>
+
+                <EditText
+                    android:id="@+id/imagetitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:inputType="text"
+                    android:layout_below="@+id/checkbox_location_enabled"/>
+
+                <EditText
+                    android:id="@+id/imagedescription"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:gravity="top|left"
+                    android:maxLines="10"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:scrollbars="vertical"
+                    android:hint="Description"
+                    android:layout_below="@+id/imagetitle"/>
+
+
+                <Button
+                    android:id="@+id/send_post_request"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="Share"
+                    android:layout_below="@+id/imagedescription"
+                    android:layout_centerInParent="true"/>
+
+
+            </RelativeLayout>
+
+
+        </TableLayout>
+    </ScrollView>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
